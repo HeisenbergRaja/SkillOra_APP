@@ -16,11 +16,6 @@ function collect_diagnostics() {
   fi
 }
 
-echo "=== CLEANING UP STALE PROCESSES ==="
-adb kill-server || true
-pkill -f emulator || true
-sleep 2
-
 echo "=== STARTING ADB SERVER ==="
 adb start-server
 
