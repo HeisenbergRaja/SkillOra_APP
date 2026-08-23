@@ -1,0 +1,22 @@
+title = "Skillora Gitleaks Config"
+
+[allowlist]
+description = "Allowlist for confirmed false positives and intentionally public Android configurations"
+paths = [
+    # WHY: This is the intentionally public Android Firebase client configuration.
+    # It contains a client-side API key restricted to this app, not a private admin key.
+    '''app/google-services\.json'''
+]
+
+regexes = [
+    # WHY: Upstream llama.cpp test fixture. This is just a dummy key for local testing.
+    '''api_key="dummy"''',
+    
+    # WHY: Upstream llama.cpp README curl example. Not a real credential.
+    '''x-api-key: your-api-key''',
+    
+    # WHY: Upstream llama.cpp xxhash dependency variables. "data_key_hi" and "data_key_lo" 
+    # trigger generic-api-key rules because of the word "key", but they are just C vectors.
+    '''data_key_lo''',
+    '''data_key_hi'''
+]
