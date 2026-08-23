@@ -1,0 +1,91 @@
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Android build files
+.gradle/
+build/
+*/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Local SDK configuration
+local.properties
+
+# Generated APK/AAB
+*.apk
+*.aab
+
+# Signing / keystore files
+*.jks
+*.keystore
+*.p12
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Firebase / service account secrets
+service-account*.json
+firebase-adminsdk*.json
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Node.js / Appium test dependencies
+node_modules/
+
+# Appium generated reports
+appium-tests/reports/
+appium-tests/screenshots/
+appium-tests/logs/
+
+# Load test generated reports
+load-tests/reports/
+load-tests/results/
+
+# Security test generated reports
+security-tests/reports/
+security-tests/*-results.json
+
+# General generated test output
+test-results/
+reports/
+screenshots/
+
+# Temporary files
+*.tmp
+*.temp
+*.cache
+
+# Python generated files if used by testing tools
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Ollama local installer
+OllamaSetup.exe
+ollama.exe
+
+# Ollama local data/models
+.ollama/
+ollama/
+models/
+
+# Local AI model files
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.onnx
+*.weights
