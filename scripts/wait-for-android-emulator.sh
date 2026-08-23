@@ -1,17 +1,46 @@
 #!/bin/bash
 set -e
 
+echo "=== INITIALIZING ENVIRONMENT ==="
+mkdir -p android-emulator-diagnostics
+
+function collect_diagnostics() {
+  echo "=== COLLECTING DIAGNOSTICS ==="
+  adb devices -l > android-emulator-diagnostics/adb_devices.txt || true
+  adb get-state > android-emulator-diagnostics/adb_state.txt 2>&1 || true
+  emulator -list-avds > android-emulator-diagnostics/avds.txt 2>&1 || true
+  ps aux | grep '[e]mulator' > android-emulator-diagnostics/emulator_process.txt || true
+  ps aux | grep '[a]db' > android-emulator-diagnostics/adb_process.txt || true
+  if [ -n "$ANDROID_DEVICE" ]; then
+    adb logcat -d > android-emulator-diagnostics/logcat.txt || true
+  fi
+}
+
+echo "=== CLEANING UP STALE PROCESSES ==="
+adb kill-server || true
+pkill -f emulator || true
+sleep 2
+
 echo "=== STARTING ADB SERVER ==="
 adb start-server
 
-echo "=== WAITING FOR ADB TO DETECT EMULATOR ==="
-# Wait up to 2 minutes for any device to appear
-TIMEOUT=120
+echo "=== CHECKING AVD ==="
+AVD_LIST=$(emulator -list-avds || true)
+if [ -z "$AVD_LIST" ]; then
+  echo "ERROR: No AVDs found! Cannot start emulator."
+  collect_diagnostics
+  exit 1
+fi
+echo "Available AVDs:"
+echo "$AVD_LIST"
+
+echo "=== PHASE A: WAITING FOR ADB DEVICE ==="
+TIMEOUT=300
 ELAPSED=0
 DEVICE_ID=""
 
 while [ $ELAPSED -lt $TIMEOUT ]; do
-  # Get the first attached device
+  # Get the first attached device that is not offline
   DEVICE_ID=$(adb devices | grep -w "device" | awk '{print $1}' | head -n 1 || true)
   if [ -n "$DEVICE_ID" ]; then
     echo "Detected device: $DEVICE_ID"
@@ -19,29 +48,36 @@ while [ $ELAPSED -lt $TIMEOUT ]; do
   fi
   sleep 5
   ELAPSED=$((ELAPSED + 5))
-  echo "Still waiting for device... (${ELAPSED}s)"
+  echo "Waiting for adb device registration... (${ELAPSED}s / ${TIMEOUT}s)"
 done
 
 if [ -z "$DEVICE_ID" ]; then
-  echo "ERROR: Timeout waiting for adb to detect device."
-  echo "=== DIAGNOSTICS ==="
-  adb devices -l || true
-  ps aux | grep emulator || true
+  echo "ERROR: ANDROID_EMULATOR_STARTUP_FAILED (Timeout waiting for adb device)"
+  collect_diagnostics
   exit 1
 fi
 
 export ANDROID_DEVICE="$DEVICE_ID"
 export ANDROID_DEVICE_NAME="$DEVICE_ID"
 
-echo "=== WAITING FOR BOOT COMPLETION ==="
-# Wait up to 5 minutes for boot_completed
+echo "=== VERIFYING EMULATOR PROCESS ==="
+if ! ps aux | grep -q '[e]mulator'; then
+  echo "ERROR: No emulator process found!"
+  collect_diagnostics
+  exit 1
+fi
+
+echo "=== PHASE B: WAITING FOR BOOT COMPLETION ==="
+echo "Waiting for device to be online..."
+adb -s "$ANDROID_DEVICE" wait-for-device
+
 BOOT_TIMEOUT=300
 BOOT_ELAPSED=0
 BOOT_COMPLETE=0
 
 while [ $BOOT_ELAPSED -lt $BOOT_TIMEOUT ]; do
-  SYS_BOOT=$(adb -s "$DEVICE_ID" shell getprop sys.boot_completed | tr -d '\r')
-  DEV_BOOT=$(adb -s "$DEVICE_ID" shell getprop dev.bootcomplete | tr -d '\r')
+  SYS_BOOT=$(adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed | tr -d '\r')
+  DEV_BOOT=$(adb -s "$ANDROID_DEVICE" shell getprop dev.bootcomplete | tr -d '\r')
   
   if [ "$SYS_BOOT" = "1" ] || [ "$DEV_BOOT" = "1" ]; then
     echo "Emulator boot completed."
@@ -51,47 +87,48 @@ while [ $BOOT_ELAPSED -lt $BOOT_TIMEOUT ]; do
   
   sleep 5
   BOOT_ELAPSED=$((BOOT_ELAPSED + 5))
-  echo "Still waiting for boot complete... (${BOOT_ELAPSED}s)"
+  echo "Waiting for boot complete... (${BOOT_ELAPSED}s / ${BOOT_TIMEOUT}s)"
 done
 
 if [ "$BOOT_COMPLETE" -eq 0 ]; then
-  echo "ERROR: Timeout waiting for emulator to boot."
-  echo "=== DIAGNOSTICS ==="
-  adb devices -l || true
-  adb -s "$DEVICE_ID" shell getprop || true
+  echo "ERROR: ANDROID_EMULATOR_STARTUP_FAILED (Timeout waiting for boot completion)"
+  collect_diagnostics
   exit 1
 fi
 
 echo "=== DISABLING ANIMATIONS ==="
-adb -s "$DEVICE_ID" shell settings put global window_animation_scale 0
-adb -s "$DEVICE_ID" shell settings put global transition_animation_scale 0
-adb -s "$DEVICE_ID" shell settings put global animator_duration_scale 0
+adb -s "$ANDROID_DEVICE" shell settings put global window_animation_scale 0
+adb -s "$ANDROID_DEVICE" shell settings put global transition_animation_scale 0
+adb -s "$ANDROID_DEVICE" shell settings put global animator_duration_scale 0
 
 echo "=== DEVICE DIAGNOSTICS ==="
-echo "SDK Version: $(adb -s "$DEVICE_ID" shell getprop ro.build.version.sdk | tr -d '\r')"
-echo "Model: $(adb -s "$DEVICE_ID" shell getprop ro.product.model | tr -d '\r')"
+echo "SDK Version: $(adb -s "$ANDROID_DEVICE" shell getprop ro.build.version.sdk | tr -d '\r')"
+echo "Model: $(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')"
 
 echo "=== INSTALLING APK ==="
-# Find APK
 APK_PATH=$(find appium-tests/app -name "*.apk" | head -n 1)
 if [ -z "$APK_PATH" ]; then
   echo "ERROR: Could not find APK in appium-tests/app"
+  collect_diagnostics
   exit 1
 fi
 
-echo "Installing $APK_PATH on $DEVICE_ID..."
-adb -s "$DEVICE_ID" install -r "$APK_PATH"
+echo "Installing $APK_PATH on $ANDROID_DEVICE..."
+adb -s "$ANDROID_DEVICE" install -r "$APK_PATH"
 
 echo "Verifying installation..."
-APP_PACKAGE="com.simats.skillora"
-if ! adb -s "$DEVICE_ID" shell pm list packages | grep -q "$APP_PACKAGE"; then
+# Dynamically getting package from APK using aapt if available, else fallback
+APP_PACKAGE=$(aapt dump badging "$APK_PATH" | grep package | awk '{print $2}' | sed s/name=//g | sed s/\'//g || echo "com.simats.skillora")
+echo "Detected package: $APP_PACKAGE"
+
+if ! adb -s "$ANDROID_DEVICE" shell pm list packages | grep -q "$APP_PACKAGE"; then
   echo "ERROR: Package $APP_PACKAGE not installed!"
+  collect_diagnostics
   exit 1
 fi
 echo "Package $APP_PACKAGE installed successfully."
 
 export APP_PACKAGE
-export APP_ACTIVITY="com.simats.skillora.MainActivity"
 
 echo "=== STARTING APPIUM ==="
 cd appium-tests
@@ -112,6 +149,7 @@ done
 if [ "$APPIUM_READY" -eq 0 ]; then
   echo "ERROR: Appium server failed to start."
   kill $APPIUM_PID || true
+  collect_diagnostics
   exit 1
 fi
 
