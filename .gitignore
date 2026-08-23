@@ -79,7 +79,7 @@ ollama.exe
 # Ollama local data/models
 .ollama/
 ollama/
-models/
+/models/
 
 # Local AI model files
 *.gguf
