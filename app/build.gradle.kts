@@ -101,6 +101,10 @@ dependencies {
 
 tasks.register("checkLocalAIModel") {
     doLast {
+        if (System.getenv("CI") == "true") {
+            println("CI environment detected, skipping local AI model check.")
+            return@doLast
+        }
         val modelDir = file("src/main/assets/models")
         val modelFile = file("src/main/assets/models/qwen3-1.7b-q4_k_m.gguf")
         if (!modelDir.exists()) {
