@@ -39,6 +39,16 @@ function collect_diagnostics() {
   fi
 }
 
+echo "=== AAPT / BUILD TOOLS ==="
+BUILD_TOOLS_DIR=$(find "$ANDROID_SDK_ROOT/build-tools" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort -V | tail -1 || true)
+if [ -n "$BUILD_TOOLS_DIR" ]; then
+    export PATH="$BUILD_TOOLS_DIR:$PATH"
+    echo "AAPT_PATH=$(command -v aapt)"
+    aapt version || true
+else
+    echo "WARNING: Android Build Tools not found in $ANDROID_SDK_ROOT/build-tools"
+fi
+
 echo "=== VERIFYING PREREQUISITES ==="
 for cmd in adb emulator sdkmanager avdmanager; do
   if ! command -v $cmd &> /dev/null; then
@@ -176,8 +186,13 @@ export APP_PACKAGE
 echo "=== STARTING APPIUM ==="
 cd appium-tests
 
-echo "Installing UiAutomator2 driver..."
-npx appium driver list --installed | grep -q uiautomator2 || npx appium driver install uiautomator2
+echo "=== APPIUM DRIVER CHECK ==="
+if npx appium driver list --installed | grep "uiautomator2" > /dev/null; then
+    echo "UiAutomator2 already installed"
+else
+    echo "Installing UiAutomator2..."
+    npx appium driver install uiautomator2 || echo "WARNING: Driver installation failed, but continuing..."
+fi
 
 npx appium --address 127.0.0.1 --port 4723 --base-path / > appium.log 2>&1 &
 APPIUM_PID=$!
