@@ -66,7 +66,19 @@ async function generateReport() {
         }
     });
 
-    const passRate = totalTests === 0 ? '0%' : `${Math.round((passed / totalTests) * 100)}%`;
+    let status = 'EXECUTED';
+    let passRate = '0%';
+    if (totalTests === 0) {
+        status = 'NOT EXECUTED';
+        console.error('ERROR: No test results found.');
+    } else {
+        passRate = `${Math.round((passed / totalTests) * 100)}%`;
+    }
+
+    let minTestWarning = '';
+    if (totalTests < 300) {
+        minTestWarning = '\\n\\n**WARNING**: Minimum test count not achieved (Expected 300+, found ' + totalTests + ')';
+    }
 
     // 1. Write Markdown Summary
     const md = `
@@ -78,9 +90,10 @@ async function generateReport() {
 | Passed | ${passed} |
 | Failed | ${failed} |
 | Skipped | ${skipped} |
+| Status | ${status} |
 | Pass Rate | ${passRate} |
 | Device | Android Emulator |
-| Execution Time | ${Math.round(totalDuration / 1000)}s |
+| Execution Time | ${Math.round(totalDuration / 1000)}s |${minTestWarning}
 `;
     if (!fs.existsSync(path.dirname(outputMd))) fs.mkdirSync(path.dirname(outputMd), { recursive: true });
     fs.writeFileSync(outputMd, md.trim());
@@ -98,7 +111,8 @@ async function generateReport() {
         { metric: 'Skipped', value: skipped },
         { metric: 'Pass Rate', value: passRate },
         { metric: 'Execution Time (s)', value: Math.round(totalDuration / 1000) },
-        { metric: 'Device', value: 'Android Emulator' }
+        { metric: 'Device', value: 'Android Emulator' },
+        { metric: 'Status', value: status }
     ]);
 
     // Sheet 2: Test Details
@@ -140,7 +154,12 @@ async function generateReport() {
     sheetFails.addRows(failures);
 
     await workbook.xlsx.writeFile(outputExcel);
-    console.log(\`Report generated: \${outputExcel}\`);
+    console.log(`Report generated: ${outputExcel}`);
+    
+    if (totalTests < 300) {
+        console.error('ERROR: Minimum test count not achieved. Failing workflow.');
+        process.exit(1);
+    }
 }
 
 generateReport().catch(console.error);
