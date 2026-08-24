@@ -130,23 +130,23 @@ if [ "$BOOT_COMPLETED" != "1" ]; then
 fi
 
 AVD_NAME="${AVD_NAME:-skillora-test}"
+ANDROID_VERSION=$(adb -s "$ANDROID_DEVICE" shell getprop ro.build.version.release | tr -d '\r')
+API_LEVEL=$(adb -s "$ANDROID_DEVICE" shell getprop ro.build.version.sdk | tr -d '\r')
+
+echo "=== ANDROID DEVICE READY ==="
+echo "Device: $ANDROID_DEVICE"
+echo "Android Version: $ANDROID_VERSION"
+echo "API Level: $API_LEVEL"
+echo "Boot Completed: $BOOT_COMPLETED"
+echo "Model: $(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')"
 echo "=========================================="
-echo "ANDROID EMULATOR READY"
-echo "=========================================="
-echo "AVD: $AVD_NAME"
-echo "DEVICE: $ANDROID_DEVICE"
-echo "BOOT: $BOOT_COMPLETED"
-adb devices -l
+adb devices
 echo "=========================================="
 
 echo "=== DISABLING ANIMATIONS ==="
 adb -s "$ANDROID_DEVICE" shell settings put global window_animation_scale 0
 adb -s "$ANDROID_DEVICE" shell settings put global transition_animation_scale 0
 adb -s "$ANDROID_DEVICE" shell settings put global animator_duration_scale 0
-
-echo "=== DEVICE DIAGNOSTICS ==="
-echo "SDK Version: $(adb -s "$ANDROID_DEVICE" shell getprop ro.build.version.sdk | tr -d '\r')"
-echo "Model: $(adb -s "$ANDROID_DEVICE" shell getprop ro.product.model | tr -d '\r')"
 
 echo "=== INSTALLING APK ==="
 APK_PATH=$(find appium-tests/app -name "*.apk" | head -n 1)
@@ -175,6 +175,10 @@ export APP_PACKAGE
 
 echo "=== STARTING APPIUM ==="
 cd appium-tests
+
+echo "Installing UiAutomator2 driver..."
+npx appium driver list --installed | grep -q uiautomator2 || npx appium driver install uiautomator2
+
 npx appium --address 127.0.0.1 --port 4723 --base-path / > appium.log 2>&1 &
 APPIUM_PID=$!
 
