@@ -1,5 +1,21 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
+
+export ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
+
+if [ -z "$ANDROID_SDK_ROOT" ]; then
+    echo "ERROR: ANDROID_SDK_ROOT is not set"
+    exit 1
+fi
+
+export ANDROID_AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.config/.android/avd}"
+mkdir -p "$ANDROID_AVD_HOME"
+export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+
+echo "=== ANDROID ENVIRONMENT ==="
+echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME"
+echo "HOME=$HOME"
 
 echo "=== INITIALIZING ENVIRONMENT ==="
 mkdir -p android-emulator-diagnostics
@@ -18,7 +34,7 @@ function collect_diagnostics() {
   echo "$ANDROID_HOME" > android-emulator-diagnostics/android_home.txt || true
   echo "$ANDROID_SDK_ROOT" > android-emulator-diagnostics/android_sdk_root.txt || true
   echo "$PATH" > android-emulator-diagnostics/path.txt || true
-  if [ -n "$ANDROID_DEVICE" ]; then
+  if [ -n "${ANDROID_DEVICE:-}" ]; then
     adb logcat -d > android-emulator-diagnostics/logcat.txt || true
   fi
 }
@@ -32,8 +48,34 @@ for cmd in adb emulator sdkmanager avdmanager; do
   fi
 done
 
+echo "=========================================="
+echo "ANDROID AVD DIAGNOSTICS"
+echo "=========================================="
+echo "HOME=$HOME"
+echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME"
+echo "=== AVD LIST ==="
+emulator -list-avds
+echo "=== AVD DIRECTORY ==="
+ls -la "$ANDROID_AVD_HOME" || true
+echo "=== SKILLORA AVD ==="
+ls -la "$ANDROID_AVD_HOME/skillora-test.avd" || true
+echo "=== AVD CONFIG FILES ==="
+find "$HOME/.config/.android" -maxdepth 3 -name "skillora-test.ini" -o -name "skillora-test.avd" -print || true
+
 echo "=== STARTING ADB SERVER ==="
 adb start-server
+
+AVD_NAME="${AVD_NAME:-skillora-test}"
+if ! emulator -list-avds | tr -d '\r' | grep -Fxq "$AVD_NAME"; then
+    echo "ERROR: AVD '$AVD_NAME' is not visible"
+    emulator -list-avds || true
+    exit 1
+fi
+
+echo "=== STARTING EMULATOR ==="
+emulator -avd "$AVD_NAME" -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect > emulator.log 2>&1 &
+EMULATOR_PID=$!
 
 echo "=== PHASE A: WAITING FOR ADB DEVICE ==="
 for i in $(seq 1 60); do

@@ -43,20 +43,37 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Setup Android SDK Variables
+      - name: Configure Android environment
+        shell: bash
         run: |
-          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
-          echo "$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_PATH
-          echo "$ANDROID_SDK_ROOT/emulator" >> $GITHUB_PATH
-          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          export ANDROID_AVD_HOME="$HOME/.config/.android/avd"
+          mkdir -p "$ANDROID_AVD_HOME"
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_HOME=${ANDROID_HOME:-$ANDROID_SDK_ROOT}" >> "$GITHUB_ENV"
+          echo "$ANDROID_SDK_ROOT/emulator" >> "$GITHUB_PATH"
+          echo "$ANDROID_SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> "$GITHUB_PATH"
+          echo "=== ANDROID ENVIRONMENT ==="
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME"
+          echo "HOME=$HOME"
       - name: Install Android SDK Components
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "emulator" "cmdline-tools;latest" "platforms;android-35" "build-tools;35.0.0" "system-images;android-35;google_apis;x86_64"
       - name: Create AVD
         run: |
+          export ANDROID_AVD_HOME="$HOME/.config/.android/avd"
+          mkdir -p "$ANDROID_AVD_HOME"
           echo "no" | avdmanager create avd --name skillora-test --package "system-images;android-35;google_apis;x86_64" --device "pixel_2"
-          avdmanager list avd | grep skillora-test || (echo "AVD creation failed" && exit 1)
+          echo "=== ANDROID_AVD_HOME ==="
+          echo "$ANDROID_AVD_HOME"
+          echo "=== EMULATOR LIST ==="
+          emulator -list-avds
+          echo "=== AVD DIRECTORY ==="
+          ls -la "$ANDROID_AVD_HOME"
+          test -d "$ANDROID_AVD_HOME/skillora-test.avd" || exit 1
       - name: Install Linux Emulator Dependencies
         run: |
           sudo apt-get update
@@ -88,9 +105,6 @@ jobs:
         with:
           name: skillora-debug-apk
           path: ./appium-tests/app
-      - name: Start Emulator
-        run: |
-          emulator -avd skillora-test -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect > emulator.log 2>&1 &
       - name: Install Appium Dependencies
         working-directory: ./appium-tests
         run: npm install

@@ -1,21 +1,25 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
-echo "=== ANDROID EMULATOR PRE-FLIGHT ==="
-mkdir -p android-emulator-diagnostics
+export ANDROID_SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-}}"
 
-# 1. Verify SDK Environment
-if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
-    export ANDROID_SDK_ROOT="${ANDROID_HOME:-}"
-fi
-if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+if [ -z "$ANDROID_SDK_ROOT" ]; then
     echo "ERROR: ANDROID_SDK_ROOT is not set"
     exit 1
 fi
+
+export ANDROID_AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.config/.android/avd}"
+
+mkdir -p "$ANDROID_AVD_HOME"
+
 export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
 
-# Ensure AVD Home is explicitly set
-export ANDROID_AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.config/.android/avd}"
+echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+echo "ANDROID_AVD_HOME=$ANDROID_AVD_HOME"
+echo "HOME=$HOME"
+
+echo "=== ANDROID EMULATOR PRE-FLIGHT ==="
+mkdir -p android-emulator-diagnostics
 
 # Track failures
 FAILED=0
