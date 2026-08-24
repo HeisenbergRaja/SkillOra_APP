@@ -1,6 +1,10 @@
 const fs = require("fs");
 const path = require("path");
 
+// Completely disable WebdriverIO's internal ESM loader injection for workers
+process.env.WDIO_LOAD_TS_NODE = '0';
+process.env.NODE_OPTIONS = '';
+
 exports.config = {
     // Disable auto-compilation to prevent ts-node/esm loader errors entirely
     autoCompileOpts: {
