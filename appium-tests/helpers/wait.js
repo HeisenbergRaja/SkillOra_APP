@@ -7,7 +7,7 @@ class WaitHelper {
     async waitForVisible(element, timeout = 15000) {
         await element.waitForDisplayed({
             timeout,
-            timeoutMsg: \`Element \${element.selector} was not visible after \${timeout}ms\`
+            timeoutMsg: `Element ${element.selector} was not visible after ${timeout}ms`
         });
     }
 
@@ -19,7 +19,7 @@ class WaitHelper {
     async waitForClickable(element, timeout = 15000) {
         await element.waitForClickable({
             timeout,
-            timeoutMsg: \`Element \${element.selector} was not clickable after \${timeout}ms\`
+            timeoutMsg: `Element ${element.selector} was not clickable after ${timeout}ms`
         });
     }
 
@@ -31,7 +31,7 @@ class WaitHelper {
     async waitForExist(element, timeout = 15000) {
         await element.waitForExist({
             timeout,
-            timeoutMsg: \`Element \${element.selector} did not exist after \${timeout}ms\`
+            timeoutMsg: `Element ${element.selector} did not exist after ${timeout}ms`
         });
     }
 }
