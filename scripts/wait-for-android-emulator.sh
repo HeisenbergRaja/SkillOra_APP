@@ -11,23 +11,29 @@ function collect_diagnostics() {
   emulator -list-avds > android-emulator-diagnostics/avds.txt 2>&1 || true
   ps aux | grep '[e]mulator' > android-emulator-diagnostics/emulator_process.txt || true
   ps aux | grep '[a]db' > android-emulator-diagnostics/adb_process.txt || true
+  which adb > android-emulator-diagnostics/which_adb.txt || true
+  which emulator > android-emulator-diagnostics/which_emulator.txt || true
+  which sdkmanager > android-emulator-diagnostics/which_sdkmanager.txt || true
+  which avdmanager > android-emulator-diagnostics/which_avdmanager.txt || true
+  echo "$ANDROID_HOME" > android-emulator-diagnostics/android_home.txt || true
+  echo "$ANDROID_SDK_ROOT" > android-emulator-diagnostics/android_sdk_root.txt || true
+  echo "$PATH" > android-emulator-diagnostics/path.txt || true
   if [ -n "$ANDROID_DEVICE" ]; then
     adb logcat -d > android-emulator-diagnostics/logcat.txt || true
   fi
 }
 
+echo "=== VERIFYING PREREQUISITES ==="
+for cmd in adb emulator sdkmanager avdmanager; do
+  if ! command -v $cmd &> /dev/null; then
+    echo "ERROR: $cmd could not be found!"
+    collect_diagnostics
+    exit 1
+  fi
+done
+
 echo "=== STARTING ADB SERVER ==="
 adb start-server
-
-echo "=== CHECKING AVD ==="
-AVD_LIST=$(emulator -list-avds || true)
-if [ -z "$AVD_LIST" ]; then
-  echo "ERROR: No AVDs found! Cannot start emulator."
-  collect_diagnostics
-  exit 1
-fi
-echo "Available AVDs:"
-echo "$AVD_LIST"
 
 echo "=== PHASE A: WAITING FOR ADB DEVICE ==="
 TIMEOUT=300

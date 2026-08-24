@@ -31,44 +31,61 @@ jobs:
   appium-tests:
     needs: android-build
     runs-on: ubuntu-latest
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        api-level: [33, 34]
-        target: [google_apis]
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Java JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Install Appium Dependencies
-        working-directory: ./appium-tests
-        run: npm install
+      - name: Setup Android SDK Variables
+        run: |
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "$ANDROID_SDK_ROOT/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_SDK_ROOT/emulator" >> $GITHUB_PATH
+          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> $GITHUB_PATH
+      - name: Install Android SDK Components
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "emulator" "cmdline-tools;latest" "platforms;android-35" "build-tools;35.0.0" "system-images;android-35;google_apis;x86_64"
+      - name: Create AVD
+        run: |
+          echo "no" | avdmanager create avd --name skillora-test --package "system-images;android-35;google_apis;x86_64" --device "pixel_2"
+          avdmanager list avd | grep skillora-test || (echo "AVD creation failed" && exit 1)
+      - name: Verify Emulator Executable
+        run: |
+          which adb
+          which emulator
+          which sdkmanager
+          which avdmanager
+          ls -la "$ANDROID_SDK_ROOT/emulator/emulator"
+          emulator -version
       - name: Download APK
         uses: actions/download-artifact@v4
         with:
           name: skillora-debug-apk
           path: ./appium-tests/app
+      - name: Start Emulator
+        run: |
+          emulator -list-avds
+          emulator -avd skillora-test -no-window -no-audio -no-boot-anim -no-snapshot -gpu swiftshader_indirect > emulator.log 2>&1 &
+      - name: Install Appium Dependencies
+        working-directory: ./appium-tests
+        run: npm install
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
+          sudo udevadm trigger --name-match=kvm || true
       - name: Make Script Executable
         run: chmod +x scripts/wait-for-android-emulator.sh
-      - name: Run Appium Tests on Emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ matrix.api-level }}
-          target: ${{ matrix.target }}
-          arch: x86_64
-          profile: pixel_2
-          ram-size: 2048M
-          cores: 2
-          disable-animations: true
-          script: bash scripts/wait-for-android-emulator.sh
+      - name: Wait for Emulator and Run Tests
+        run: bash scripts/wait-for-android-emulator.sh
       - name: Upload Appium Results
         if: always()
         uses: actions/upload-artifact@v4
