@@ -9,6 +9,9 @@ exports.config = {
     
     runner: "local",
 
+    // Override the Node arguments for workers to strip any injected ts-node --loader flags
+    execArgv: [],
+
     specs: [
         "./tests/**/*.js"
     ],
@@ -17,6 +20,7 @@ exports.config = {
 
     capabilities: [
         {
+            maxInstances: 1,
             platformName: "Android",
             "appium:automationName": "UiAutomator2",
             "appium:deviceName": process.env.ANDROID_DEVICE || "Android Emulator",
