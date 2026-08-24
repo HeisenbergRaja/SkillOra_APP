@@ -50,22 +50,53 @@ fi
 
 # 7. Check AVD
 AVD_NAME="${AVD_NAME:-skillora-test}"
-AVD_FOUND=false
-while IFS= read -r avd; do
-    if [ "$avd" = "$AVD_NAME" ]; then
-        AVD_FOUND=true
-        break
-    fi
-done < <(emulator -list-avds 2>/dev/null || true)
+echo "=== CHECKING AVD ==="
+echo "Requested AVD: $AVD_NAME"
+echo "=== RAW EMULATOR AVD LIST ==="
+emulator -list-avds | cat -A || true
 
-if [ "$AVD_FOUND" = true ]; then
+AVD_LIST="$(emulator -list-avds 2>/dev/null | tr -d '\r')"
+echo "Available AVD names:"
+printf '%s\n' "$AVD_LIST"
+
+if printf '%s\n' "$AVD_LIST" | grep -Fxq "$AVD_NAME"; then
     echo "AVD: PASS ($AVD_NAME)"
 else
     echo "AVD: FAIL ($AVD_NAME not found)"
     FAILED=1
     echo "=== AVAILABLE AVDS ==="
     emulator -list-avds || true
+    echo "=== AVDMANAGER DETAILS ==="
     avdmanager list avd || true
+fi
+
+# Verify SDK Environment
+if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+    export ANDROID_SDK_ROOT="${ANDROID_HOME:-}"
+fi
+if [ -z "${ANDROID_SDK_ROOT:-}" ]; then
+    echo "ERROR: ANDROID_SDK_ROOT is not set"
+    exit 1
+fi
+export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+
+# Verify AVD file
+AVD_HOME="${ANDROID_AVD_HOME:-$HOME/.config/.android/avd}"
+AVD_DIR="$AVD_HOME/${AVD_NAME}.avd"
+echo "Expected AVD directory: $AVD_DIR"
+if [ -d "$AVD_DIR" ]; then
+    echo "AVD directory: PASS"
+else
+    echo "AVD directory: FAIL"
+    ls -la "$AVD_HOME" || true
+    FAILED=1
+fi
+
+if [ -f "$AVD_DIR/config.ini" ]; then
+    echo "AVD config: PASS"
+else
+    echo "AVD config: FAIL"
+    FAILED=1
 fi
 
 if [ $FAILED -ne 0 ]; then

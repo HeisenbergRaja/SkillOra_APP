@@ -36,30 +36,26 @@ echo "=== STARTING ADB SERVER ==="
 adb start-server
 
 echo "=== PHASE A: WAITING FOR ADB DEVICE ==="
-TIMEOUT=300
-ELAPSED=0
-DEVICE_ID=""
-
-while [ $ELAPSED -lt $TIMEOUT ]; do
-  # Get the first attached device that is not offline
-  DEVICE_ID=$(adb devices | grep -w "device" | awk '{print $1}' | head -n 1 || true)
-  if [ -n "$DEVICE_ID" ]; then
-    echo "Detected device: $DEVICE_ID"
-    break
-  fi
-  sleep 5
-  ELAPSED=$((ELAPSED + 5))
-  echo "Waiting for adb device registration... (${ELAPSED}s / ${TIMEOUT}s)"
+for i in $(seq 1 60); do
+    ANDROID_DEVICE="$(adb devices | awk '/^emulator-[0-9]+[[:space:]]+device$/ {print $1; exit}')"
+    if [ -n "$ANDROID_DEVICE" ]; then
+        echo "Android device detected: $ANDROID_DEVICE"
+        break
+    fi
+    sleep 5
 done
 
-if [ -z "$DEVICE_ID" ]; then
-  echo "ERROR: ANDROID_EMULATOR_STARTUP_FAILED (Timeout waiting for adb device)"
-  collect_diagnostics
-  exit 1
+if [ -z "$ANDROID_DEVICE" ]; then
+    echo "ERROR: Android emulator device was not detected"
+    adb devices -l || true
+    echo "=== EMULATOR LOG ==="
+    cat emulator.log || true
+    collect_diagnostics
+    exit 1
 fi
 
-export ANDROID_DEVICE="$DEVICE_ID"
-export ANDROID_DEVICE_NAME="$DEVICE_ID"
+export ANDROID_DEVICE="$ANDROID_DEVICE"
+export ANDROID_DEVICE_NAME="$ANDROID_DEVICE"
 
 echo "=== VERIFYING EMULATOR PROCESS ==="
 if ! ps aux | grep -q '[e]mulator'; then
@@ -72,30 +68,34 @@ echo "=== PHASE B: WAITING FOR BOOT COMPLETION ==="
 echo "Waiting for device to be online..."
 adb -s "$ANDROID_DEVICE" wait-for-device
 
-BOOT_TIMEOUT=300
-BOOT_ELAPSED=0
-BOOT_COMPLETE=0
-
-while [ $BOOT_ELAPSED -lt $BOOT_TIMEOUT ]; do
-  SYS_BOOT=$(adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed | tr -d '\r')
-  DEV_BOOT=$(adb -s "$ANDROID_DEVICE" shell getprop dev.bootcomplete | tr -d '\r')
-  
-  if [ "$SYS_BOOT" = "1" ] || [ "$DEV_BOOT" = "1" ]; then
-    echo "Emulator boot completed."
-    BOOT_COMPLETE=1
-    break
-  fi
-  
-  sleep 5
-  BOOT_ELAPSED=$((BOOT_ELAPSED + 5))
-  echo "Waiting for boot complete... (${BOOT_ELAPSED}s / ${BOOT_TIMEOUT}s)"
+for i in $(seq 1 60); do
+    BOOT_COMPLETED="$(adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+    if [ "$BOOT_COMPLETED" = "1" ]; then
+        echo "Android boot completed"
+        break
+    fi
+    echo "Waiting for Android boot... attempt $i/60"
+    sleep 5
 done
 
-if [ "$BOOT_COMPLETE" -eq 0 ]; then
-  echo "ERROR: ANDROID_EMULATOR_STARTUP_FAILED (Timeout waiting for boot completion)"
-  collect_diagnostics
-  exit 1
+if [ "$BOOT_COMPLETED" != "1" ]; then
+    echo "ERROR: Android emulator failed to boot"
+    adb -s "$ANDROID_DEVICE" shell getprop sys.boot_completed || true
+    adb devices -l || true
+    cat emulator.log || true
+    collect_diagnostics
+    exit 1
 fi
+
+AVD_NAME="${AVD_NAME:-skillora-test}"
+echo "=========================================="
+echo "ANDROID EMULATOR READY"
+echo "=========================================="
+echo "AVD: $AVD_NAME"
+echo "DEVICE: $ANDROID_DEVICE"
+echo "BOOT: $BOOT_COMPLETED"
+adb devices -l
+echo "=========================================="
 
 echo "=== DISABLING ANIMATIONS ==="
 adb -s "$ANDROID_DEVICE" shell settings put global window_animation_scale 0
