@@ -4,13 +4,15 @@
   "description": "Appium E2E tests for Skillora Android App",
   "main": "index.js",
   "scripts": {
-    "wdio": "wdio run wdio.conf.js"
+    "test:android": "wdio run wdio.conf.js",
+    "test:android:serial": "wdio run wdio.conf.js --maxInstances 1"
   },
   "devDependencies": {
     "@wdio/cli": "^8.36.1",
     "@wdio/local-runner": "^8.36.1",
     "@wdio/mocha-framework": "^8.36.1",
     "@wdio/spec-reporter": "^8.36.1",
+    "@wdio/json-reporter": "^8.36.1",
     "appium": "^2.5.1",
     "appium-uiautomator2-driver": "^3.0.5",
     "exceljs": "^4.4.0"

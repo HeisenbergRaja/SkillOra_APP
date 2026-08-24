@@ -175,7 +175,7 @@ export APP_PACKAGE
 
 echo "=== STARTING APPIUM ==="
 cd appium-tests
-npx appium &
+npx appium --address 127.0.0.1 --port 4723 --base-path / > appium.log 2>&1 &
 APPIUM_PID=$!
 
 echo "Waiting for Appium to start..."
@@ -192,12 +192,13 @@ done
 if [ "$APPIUM_READY" -eq 0 ]; then
   echo "ERROR: Appium server failed to start."
   kill $APPIUM_PID || true
+  cat appium.log || true
   collect_diagnostics
   exit 1
 fi
 
 echo "=== RUNNING TESTS ==="
-npm run wdio
+npm run test:android
 TEST_EXIT_CODE=$?
 
 kill $APPIUM_PID || true

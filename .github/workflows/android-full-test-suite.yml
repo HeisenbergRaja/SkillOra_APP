@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
       - name: Configure Android environment
         shell: bash
         run: |
@@ -107,7 +107,7 @@ jobs:
           path: ./appium-tests/app
       - name: Install Appium Dependencies
         working-directory: ./appium-tests
-        run: npm install
+        run: npm ci
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -115,16 +115,23 @@ jobs:
           sudo udevadm trigger --name-match=kvm || true
       - name: Wait for Emulator and Run Tests
         run: bash scripts/wait-for-android-emulator.sh
+      - name: Generate Test Reports
+        if: always()
+        working-directory: ./appium-tests
+        run: node scripts/generate-appium-report.js
       - name: Upload Appium Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: appium-test-results
           path: |
-            ./appium-tests/reports/appium-test-results.xlsx
-            ./appium-tests/reports/appium-test-results.json
-            ./appium-tests/reports/appium-screenshots/
-            ./appium-tests/reports/appium-logs/
+            ./appium-tests/reports/
+      - name: Publish GitHub Summary
+        if: always()
+        run: |
+          if [ -f ./appium-tests/reports/appium-test-report.md ]; then
+            cat ./appium-tests/reports/appium-test-report.md >> $GITHUB_STEP_SUMMARY
+          fi
       - name: Upload Emulator Diagnostics
         if: always()
         uses: actions/upload-artifact@v4
