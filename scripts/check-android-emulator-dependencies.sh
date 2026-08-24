@@ -31,14 +31,16 @@ fi
 # 6. Check QEMU dependencies
 QEMU_BIN="$ANDROID_SDK_ROOT/emulator/qemu/linux-x86_64/qemu-system-x86_64"
 if [ -f "$QEMU_BIN" ]; then
-  MISSING_DEPS=$(ldd "$QEMU_BIN" | grep "not found" || true)
+  # Build a library path for emulator bundled libraries
+  EMULATOR_LD_LIBRARY_PATH=$(find "$ANDROID_SDK_ROOT/emulator" -type f -name "*.so*" -printf '%h\n' | sort -u | paste -sd ":" -)
+  MISSING_DEPS=$(LD_LIBRARY_PATH="$EMULATOR_LD_LIBRARY_PATH${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" ldd "$QEMU_BIN" | grep "not found" || true)
   if [ -n "$MISSING_DEPS" ]; then
     echo "QEMU dependencies: FAIL (missing libraries)"
     echo "=== QEMU MISSING LIBRARIES ==="
     echo "$MISSING_DEPS"
     FAILED=1
     echo "=== QEMU DEPENDENCIES ===" > android-emulator-diagnostics/qemu_deps.txt
-    ldd "$QEMU_BIN" >> android-emulator-diagnostics/qemu_deps.txt || true
+    LD_LIBRARY_PATH="$EMULATOR_LD_LIBRARY_PATH${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" ldd "$QEMU_BIN" >> android-emulator-diagnostics/qemu_deps.txt || true
   else
     echo "QEMU dependencies: PASS"
   fi
@@ -48,14 +50,22 @@ fi
 
 # 7. Check AVD
 AVD_NAME="${AVD_NAME:-skillora-test}"
-if emulator -list-avds | grep -Fxq "$AVD_NAME"; then
-  echo "AVD: PASS ($AVD_NAME)"
+AVD_FOUND=false
+while IFS= read -r avd; do
+    if [ "$avd" = "$AVD_NAME" ]; then
+        AVD_FOUND=true
+        break
+    fi
+done < <(emulator -list-avds 2>/dev/null || true)
+
+if [ "$AVD_FOUND" = true ]; then
+    echo "AVD: PASS ($AVD_NAME)"
 else
-  echo "AVD: FAIL ($AVD_NAME not found)"
-  FAILED=1
-  echo "=== AVAILABLE AVDS ==="
-  emulator -list-avds || true
-  avdmanager list avd || true
+    echo "AVD: FAIL ($AVD_NAME not found)"
+    FAILED=1
+    echo "=== AVAILABLE AVDS ==="
+    emulator -list-avds || true
+    avdmanager list avd || true
 fi
 
 if [ $FAILED -ne 0 ]; then
