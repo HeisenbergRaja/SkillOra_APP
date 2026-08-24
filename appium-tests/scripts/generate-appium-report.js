@@ -35,12 +35,15 @@ async function generateReport() {
                     
                     const state = test.state || (test.passed ? 'passed' : 'failed');
                     
+                    let statusStr = state.toUpperCase();
                     if (state === 'passed') {
                         passed++;
                         categories[category].passed++;
+                        statusStr = 'EXECUTED/PASSED';
                     } else if (state === 'failed') {
                         failed++;
                         categories[category].failed++;
+                        statusStr = 'EXECUTED/FAILED';
                         failures.push({
                             id: `APP-${String(totalTests).padStart(3, '0')}`,
                             name: test.title,
@@ -49,13 +52,14 @@ async function generateReport() {
                     } else {
                         skipped++;
                         categories[category].skipped++;
+                        statusStr = 'BLOCKED';
                     }
                     
                     allTests.push({
                         id: `APP-${String(totalTests).padStart(3, '0')}`,
                         category,
                         name: test.title,
-                        status: state.toUpperCase(),
+                        status: statusStr,
                         duration: test.duration,
                         error: state === 'failed' ? (test.error || 'Failed') : ''
                     });
@@ -66,13 +70,17 @@ async function generateReport() {
         }
     });
 
+    const executed = passed + failed;
+    const blocked = skipped;
+    const notExecuted = totalTests === 0 ? 'ALL' : 0;
+    
     let status = 'EXECUTED';
     let passRate = '0%';
     if (totalTests === 0) {
         status = 'NOT EXECUTED';
         console.error('ERROR: No test results found.');
-    } else {
-        passRate = `${Math.round((passed / totalTests) * 100)}%`;
+    } else if (executed > 0) {
+        passRate = `${Math.round((passed / executed) * 100)}%`;
     }
 
     let minTestWarning = '';
@@ -87,13 +95,20 @@ async function generateReport() {
 | Metric | Result |
 |---|---:|
 | Total Tests | ${totalTests} |
+| Executed | ${executed} |
 | Passed | ${passed} |
 | Failed | ${failed} |
-| Skipped | ${skipped} |
-| Status | ${status} |
+| Blocked | ${blocked} |
+| Not Executed | ${notExecuted} |
 | Pass Rate | ${passRate} |
 | Device | Android Emulator |
 | Execution Time | ${Math.round(totalDuration / 1000)}s |${minTestWarning}
+
+## Category Summary
+
+| Category | Total | Passed | Failed | Blocked |
+|---|---:|---:|---:|---:|
+${Object.keys(categories).map(cat => `| ${cat} | ${categories[cat].total} | ${categories[cat].passed} | ${categories[cat].failed} | ${categories[cat].skipped} |`).join('\n')}
 `;
     if (!fs.existsSync(path.dirname(outputMd))) fs.mkdirSync(path.dirname(outputMd), { recursive: true });
     fs.writeFileSync(outputMd, md.trim());
@@ -106,9 +121,11 @@ async function generateReport() {
     sheetSummary.columns = [ { header: 'Metric', key: 'metric', width: 25 }, { header: 'Value', key: 'value', width: 25 } ];
     sheetSummary.addRows([
         { metric: 'Total Test Cases', value: totalTests },
+        { metric: 'Executed', value: executed },
         { metric: 'Passed', value: passed },
         { metric: 'Failed', value: failed },
-        { metric: 'Skipped', value: skipped },
+        { metric: 'Blocked', value: blocked },
+        { metric: 'Not Executed', value: notExecuted },
         { metric: 'Pass Rate', value: passRate },
         { metric: 'Execution Time (s)', value: Math.round(totalDuration / 1000) },
         { metric: 'Device', value: 'Android Emulator' },

@@ -197,7 +197,18 @@ if [ "$APPIUM_READY" -eq 0 ]; then
   exit 1
 fi
 
-echo "=== RUNNING TESTS ==="
+echo "=== RUNNING SMOKE TEST ==="
+npm run test:android:smoke
+SMOKE_EXIT_CODE=$?
+
+if [ "$SMOKE_EXIT_CODE" -ne 0 ]; then
+  echo "ERROR: Smoke test failed. Aborting full test suite."
+  kill $APPIUM_PID || true
+  collect_diagnostics
+  exit 1
+fi
+
+echo "=== RUNNING FULL TEST SUITE ==="
 npm run test:android
 TEST_EXIT_CODE=$?
 

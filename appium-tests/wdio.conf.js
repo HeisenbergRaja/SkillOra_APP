@@ -6,6 +6,10 @@ process.env.WDIO_LOAD_TS_NODE = '0';
 process.env.NODE_OPTIONS = '';
 
 exports.config = {
+    // Appium connection details
+    port: 4723,
+    path: '/',
+
     // Disable auto-compilation to prevent ts-node/esm loader errors entirely
     autoCompileOpts: {
         autoCompile: false
