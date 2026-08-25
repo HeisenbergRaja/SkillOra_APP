@@ -184,6 +184,9 @@ jobs:
           k6 run scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
+          LOAD_TEST_MODE: 'true'
+          LOAD_VUS: '100'
+          LOAD_DURATION: '1m'
       - name: Upload Load Test Results
         if: always()
         uses: actions/upload-artifact@v4
