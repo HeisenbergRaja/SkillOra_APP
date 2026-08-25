@@ -13,7 +13,7 @@ The SkillOra Android app uses a direct-to-Firebase architecture. There is no cus
 5. **Exact API endpoint used after Google authentication:** Firestore collections (e.g., `/users/{userId}`, `/skills`).
 6. **Required Authorization header:** `Authorization: Bearer <FIREBASE_ID_TOKEN>`
 7. **Any required Firebase custom claims:** None observed; standard Firebase authentication rules apply.
-8. **Whether a dedicated test account is required:** Yes. Because raw Google ID Tokens expire quickly (1 hour) and are difficult to safely rotate in CI without a headless browser, the load tests are configured to accept a `FIREBASE_TEST_TOKEN`. This token must be supplied by the CI environment (e.g., via a Service Account OAuth2 token or a pre-generated ID token) to reliably authenticate against Firestore without hardcoding user credentials or interactive logins.
+8. **Whether a dedicated test account is required:** Yes. Because raw Google ID Tokens expire quickly (1 hour) and cannot easily be automated via the Google login UI, a dedicated Firebase Email/Password test account is used. The CI securely authenticates via the Firebase Identity Toolkit REST API to automatically obtain a fresh Firebase ID token on every run.
 
 ## CI Configuration
 
@@ -21,7 +21,10 @@ These load tests are executed via GitHub Actions.
 
 Required GitHub Actions Secrets:
 - `API_BASE_URL` (e.g., the Firestore REST API base, defaulting to `https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents` if absent)
-- `FIREBASE_TEST_TOKEN` (A valid authentication token for the SkillOra backend)
+- `FIREBASE_TEST_EMAIL` (A dedicated test user email, e.g. `test-user@skillora.app`)
+- `FIREBASE_TEST_PASSWORD` (Password for the dedicated test user)
+
+*Note: The Firebase Web API Key is automatically derived from the public `google-services.json` and does not need to be supplied as a GitHub Secret unless overriding.*
 
 These are safely verified during the `=== LOAD TEST PRE-FLIGHT ===` CI step.
 

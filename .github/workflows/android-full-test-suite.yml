@@ -175,7 +175,9 @@ jobs:
           k6 run --vus 1 --iterations 1 scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          FIREBASE_TEST_TOKEN: ${{ secrets.FIREBASE_TEST_TOKEN }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY != '' && secrets.FIREBASE_API_KEY || 'AIzaSyBMcAmunSsEIIeo-sWCUPLNJVTwoueCusg' }}
+          FIREBASE_TEST_EMAIL: ${{ secrets.FIREBASE_TEST_EMAIL }}
+          FIREBASE_TEST_PASSWORD: ${{ secrets.FIREBASE_TEST_PASSWORD }}
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         continue-on-error: true
@@ -184,7 +186,9 @@ jobs:
           k6 run scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          FIREBASE_TEST_TOKEN: ${{ secrets.FIREBASE_TEST_TOKEN }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY != '' && secrets.FIREBASE_API_KEY || 'AIzaSyBMcAmunSsEIIeo-sWCUPLNJVTwoueCusg' }}
+          FIREBASE_TEST_EMAIL: ${{ secrets.FIREBASE_TEST_EMAIL }}
+          FIREBASE_TEST_PASSWORD: ${{ secrets.FIREBASE_TEST_PASSWORD }}
       - name: Upload Load Test Results
         if: always()
         uses: actions/upload-artifact@v4

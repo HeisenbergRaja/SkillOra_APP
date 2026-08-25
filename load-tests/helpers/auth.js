@@ -1,22 +1,53 @@
 import http from 'k6/http';
 
-export function authenticateFirebase(testToken) {
-    if (!testToken) {
-        throw new Error('FIREBASE_TEST_TOKEN is not configured. A valid test credential is required to authenticate with Firebase.');
+export function authenticateForLoadTest(apiKey, email, password) {
+    if (!email || !password) {
+        throw new Error('Firebase test credentials (FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD) are not configured. A dedicated test user is required.');
     }
 
-    // In a real load test environment, the CI pipeline should supply a valid Firebase ID Token
-    // or an OAuth2 access token (e.g., via a Service Account) as FIREBASE_TEST_TOKEN.
-    // This avoids needing FIREBASE_API_KEY, emails, passwords, or interactive Google logins.
+    const authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey || 'AIzaSyBMcAmunSsEIIeo-sWCUPLNJVTwoueCusg'}`;
+    const payload = JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+    });
     
-    // We assume the test token contains the user context needed for Firestore.
-    // We can extract a dummy userId from the token if it's a JWT, but for load testing
-    // Firestore REST APIs, the token itself is what matters for the Authorization header.
+    const params = {
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    };
+
+    const response = http.post(authUrl, payload, params);
+
+    if (!response) {
+        throw new Error('Authentication returned no response');
+    }
+
+    if (response.status < 200 || response.status >= 300) {
+        console.error(
+            `=== FIREBASE AUTHENTICATION FAILED ===\nHTTP status: ${response.status}\nResponse: ${response.body ? response.body.substring(0, 500) : '<empty>'}`
+        );
+        throw new Error(`Authentication failed with HTTP ${response.status}`);
+    }
+
+    if (!response.body) {
+        throw new Error('Authentication returned an empty response body');
+    }
+
+    let data;
+    try {
+        data = response.json();
+    } catch (error) {
+        throw new Error(`Authentication returned invalid JSON: ${error}`);
+    }
+
+    if (!data || !data.idToken) {
+        throw new Error('Authentication response did not contain an idToken');
+    }
 
     return {
-        token: testToken,
-        // Using a hardcoded test userId since decoding JWT in k6 requires external libs.
-        // In a real scenario, this would be the UID associated with the test token.
-        userId: 'load-test-user-123'
+        token: data.idToken,
+        userId: data.localId
     };
 }

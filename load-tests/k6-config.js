@@ -8,4 +8,6 @@ export const options = {
 };
 
 export const BASE_URL = __ENV.API_BASE_URL;
-export const FIREBASE_TEST_TOKEN = __ENV.FIREBASE_TEST_TOKEN;
+export const FIREBASE_API_KEY = __ENV.FIREBASE_API_KEY;
+export const FIREBASE_TEST_EMAIL = __ENV.FIREBASE_TEST_EMAIL;
+export const FIREBASE_TEST_PASSWORD = __ENV.FIREBASE_TEST_PASSWORD;

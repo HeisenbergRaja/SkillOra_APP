@@ -1,7 +1,7 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { options, BASE_URL, FIREBASE_TEST_TOKEN } from '../k6-config.js';
-import { authenticateFirebase } from '../helpers/auth.js';
+import { options, BASE_URL, FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD } from '../k6-config.js';
+import { authenticateForLoadTest } from '../helpers/auth.js';
 
 export { options };
 
@@ -18,9 +18,6 @@ function safeJson(response) {
 
 export function setup() {
     console.log('=== AUTHENTICATION SETUP ===');
-    if (!FIREBASE_TEST_TOKEN) {
-        throw new Error('FIREBASE_TEST_TOKEN is not configured');
-    }
     if (!BASE_URL) {
         throw new Error('API_BASE_URL is not configured');
     }
@@ -28,8 +25,9 @@ export function setup() {
         throw new Error(`Invalid API_BASE_URL: ${BASE_URL}`);
     }
 
-    const authData = authenticateFirebase(FIREBASE_TEST_TOKEN);
-    console.log(`Test token: obtained (User: ${authData.userId})`);
+    const authData = authenticateForLoadTest(FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD);
+    console.log('Firebase authentication: PASS');
+    console.log('Firebase ID token: obtained');
     return authData;
 }
 
@@ -45,18 +43,16 @@ export default function (data) {
         },
     };
 
-    // LOAD-101: Get Profile from Firestore
     let profileRes = http.get(`${BASE_URL}/users/${data.userId}`, authParams);
     check(profileRes, {
-        'HTTP request: PASS (profile)': (r) => r.status === 200,
-        'Authentication: PASS (profile)': (r) => r.status !== 401 && r.status !== 403,
+        'API connectivity: PASS': (r) => r.status > 0,
+        'Authentication: PASS': (r) => r.status !== 401 && r.status !== 403,
+        'Authenticated request: PASS': (r) => r.status === 200,
     });
 
-    // LOAD-201: Get Marketplace Skills from Firestore
     let skillsRes = http.get(`${BASE_URL}/skills`, authParams);
     check(skillsRes, {
-        'HTTP request: PASS (skills)': (r) => r.status === 200,
-        'Authentication: PASS (skills)': (r) => r.status !== 401 && r.status !== 403,
+        'Authenticated request: PASS (skills)': (r) => r.status === 200,
     });
 
     sleep(1);
