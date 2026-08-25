@@ -29,6 +29,14 @@ export function setup() {
     return authData;
 }
 
+function logRequest(name, method, url, res) {
+    // Only log occasionally during full load to avoid flooding console,
+    // but log every time during smoke test.
+    if (__ENV.IS_SMOKE_TEST === 'true' || Math.random() < 0.05) {
+        console.log(`\nAPI REQUEST:\n  name: ${name}\n  method: ${method}\n  path: ${url.replace(/https?:\/\/[^\/]+/, '')}\n  status: ${res.status}\n  duration: ${res.timings.duration.toFixed(2)}ms\n  size: ${res.body ? res.body.length : 0} bytes`);
+    }
+}
+
 export default function (data) {
     if (!data || !data.userId) {
         throw new Error('No configuration data received from setup()');
@@ -40,19 +48,24 @@ export default function (data) {
         },
     };
     
-    // Use the optional token if provided
     if (data.token) {
         reqOptions.headers['Authorization'] = `Bearer ${data.token}`;
     }
 
-    let profileRes = http.get(`${data.baseUrl}/users/${data.userId}`, reqOptions);
+    const profileUrl = `${data.baseUrl}/users/${data.userId}`;
+    let profileRes = http.get(profileUrl, reqOptions);
+    logRequest('Get Profile', 'GET', profileUrl, profileRes);
+    
     check(profileRes, {
         'API connectivity: PASS': (r) => r.status > 0,
         'Authentication: PASS': (r) => r.status !== 401 && r.status !== 403,
         'Authenticated request: PASS': (r) => r.status === 200,
     });
 
-    let skillsRes = http.get(`${data.baseUrl}/skills`, reqOptions);
+    const skillsUrl = `${data.baseUrl}/skills`;
+    let skillsRes = http.get(skillsUrl, reqOptions);
+    logRequest('Get Skills', 'GET', skillsUrl, skillsRes);
+    
     check(skillsRes, {
         'Authenticated request: PASS (skills)': (r) => r.status === 200,
     });

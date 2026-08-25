@@ -173,9 +173,10 @@ jobs:
         working-directory: ./load-tests
         run: |
           echo "=== API SMOKE TEST ==="
-          k6 run --vus 1 --iterations 1 scenarios/api-load-tests.js
+          k6 run scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
+          IS_SMOKE_TEST: 'true'
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         continue-on-error: true
