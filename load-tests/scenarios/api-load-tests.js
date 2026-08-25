@@ -1,57 +1,50 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { options, BASE_URL, TEST_EMAIL, TEST_PASSWORD } from '../k6-config.js';
+import { options, BASE_URL, FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD } from '../k6-config.js';
+import { authenticateFirebase } from '../helpers/auth.js';
 
 export { options };
 
-export default function () {
-    // LOAD-001: Login
-    const loginPayload = JSON.stringify({
-        email: TEST_EMAIL,
-        password: TEST_PASSWORD,
-    });
-    const params = {
+export function setup() {
+    // Authenticate once per test run using Firebase Identity Toolkit
+    console.log('Authenticating with Firebase...');
+    const authData = authenticateFirebase(FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD);
+    console.log(`Authenticated successfully as user: ${authData.userId}`);
+    return authData;
+}
+
+export default function (data) {
+    if (!data || !data.token) {
+        throw new Error('No authentication data received from setup()');
+    }
+
+    if (!BASE_URL) {
+        throw new Error('API_BASE_URL is not configured');
+    }
+
+    if (!/^https?:\/\//.test(BASE_URL)) {
+        throw new Error(`Invalid API_BASE_URL: ${BASE_URL}`);
+    }
+
+    const authParams = {
         headers: {
+            'Authorization': `Bearer ${data.token}`,
             'Content-Type': 'application/json',
         },
     };
 
-    let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
-    
-    const success = check(loginRes, {
-        'LOAD-001: login request succeeded': (r) => r && r.status >= 200 && r.status < 300,
+    // LOAD-101: Get Profile from Firestore
+    // Expected endpoint: https://firestore.googleapis.com/v1/projects/{project}/databases/(default)/documents/users/{userId}
+    let profileRes = http.get(`${BASE_URL}/users/${data.userId}`, authParams);
+    check(profileRes, {
+        'LOAD-101: profile status is 200': (r) => r.status === 200,
     });
 
-    if (!loginRes || !loginRes.body || loginRes.status < 200 || loginRes.status >= 300) {
-        console.error(`LOGIN FAILED: status=${loginRes?.status ?? 'null'}, body=${loginRes?.body || '<empty>'}`);
-        return;
-    }
-
-    check(loginRes, {
-        'LOAD-001: login returns token': (r) => r.json('token') !== undefined,
+    // LOAD-201: Get Marketplace Skills from Firestore
+    let skillsRes = http.get(`${BASE_URL}/skills`, authParams);
+    check(skillsRes, {
+        'LOAD-201: skills status is 200': (r) => r.status === 200,
     });
-
-    let token = loginRes.json('token');
-    if (token) {
-        const authParams = {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        };
-
-        // LOAD-101: Get Profile
-        let profileRes = http.get(`${BASE_URL}/users/profile`, authParams);
-        check(profileRes, {
-            'LOAD-101: profile status is 200': (r) => r.status === 200,
-        });
-
-        // LOAD-201: Get Marketplace Skills
-        let skillsRes = http.get(`${BASE_URL}/skills?page=1&limit=20`, authParams);
-        check(skillsRes, {
-            'LOAD-201: skills status is 200': (r) => r.status === 200,
-        });
-    }
 
     sleep(1);
 }
