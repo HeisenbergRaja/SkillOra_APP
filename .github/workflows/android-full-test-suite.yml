@@ -145,12 +145,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: Setup k6
         run: sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69 && echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list && sudo apt-get update && sudo apt-get install k6
+      - name: Verify Backend (Health Check)
+        run: |
+          echo "=== WAITING FOR APPLICATION ==="
+          # Since the backend might be Firebase or an external staging server, we ping the base URL.
+          # We use a 120s timeout and wait for a 2xx or 4xx HTTP code (just to verify it's reachable and not connection refused).
+          timeout 120 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_BASE_URL})" == "000" ]]; do sleep 5; done' || (echo "Backend unreachable" && exit 1)
+          echo "Application is reachable at ${API_BASE_URL}"
+        env:
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         continue-on-error: true
         run: k6 run scenarios/api-load-tests.js
         env:
-          API_URL: ${{ secrets.API_URL }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
       - name: Upload Load Test Results

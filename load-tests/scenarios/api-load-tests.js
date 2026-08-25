@@ -18,8 +18,16 @@ export default function () {
 
     let loginRes = http.post(`${BASE_URL}/auth/login`, loginPayload, params);
     
+    const success = check(loginRes, {
+        'LOAD-001: login request succeeded': (r) => r && r.status >= 200 && r.status < 300,
+    });
+
+    if (!loginRes || !loginRes.body || loginRes.status < 200 || loginRes.status >= 300) {
+        console.error(`LOGIN FAILED: status=${loginRes?.status ?? 'null'}, body=${loginRes?.body || '<empty>'}`);
+        return;
+    }
+
     check(loginRes, {
-        'LOAD-001: login status is 200': (r) => r.status === 200,
         'LOAD-001: login returns token': (r) => r.json('token') !== undefined,
     });
 

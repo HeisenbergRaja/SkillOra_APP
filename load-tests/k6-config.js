@@ -7,6 +7,6 @@ export const options = {
     },
 };
 
-export const BASE_URL = __ENV.API_URL || 'http://localhost:3000/api';
+export const BASE_URL = __ENV.API_BASE_URL;
 export const TEST_EMAIL = __ENV.TEST_EMAIL || 'test@example.com';
 export const TEST_PASSWORD = __ENV.TEST_PASSWORD || 'password123';
