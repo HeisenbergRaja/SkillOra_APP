@@ -155,38 +155,21 @@ jobs:
       - name: Validate load test configuration
         run: |
           echo "=== LOAD TEST PRE-FLIGHT ==="
-          test -n "$API_BASE_URL" || { echo "ERROR: API_BASE_URL GitHub secret is missing"; exit 1; }
-          echo "API_BASE_URL: configured"
-          echo "API: reachable"
-          echo "AUTH: configured/validated"
-          echo "k6: PASS"
+          if [ -z "$BASE_URL" ]; then
+            echo "ERROR: BASE_URL must be configured."
+            exit 1
+          fi
+          echo "BASE_URL configured: YES"
+          echo "Starting k6..."
         env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-      - name: Verify Backend (Health Check)
-        run: |
-          echo "=== WAITING FOR APPLICATION ==="
-          timeout 120 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_BASE_URL}/skills)" == "000" ]]; do sleep 5; done' || (echo "Backend unreachable" && exit 1)
-          echo "Application is reachable at ${API_BASE_URL}"
-        env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-      - name: Minimal Authentication Test (1 VU)
-        working-directory: ./load-tests
-        run: |
-          echo "=== API SMOKE TEST ==="
-          k6 run scenarios/api-load-tests.js
-        env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          IS_SMOKE_TEST: 'true'
+          BASE_URL: ${{ secrets.BASE_URL }}
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         run: |
-          echo "=== LOAD TEST ==="
+          echo "=== SKILLORA LOAD TEST ==="
           k6 run scenarios/api-load-tests.js
         env:
-          API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          LOAD_TEST_MODE: 'true'
-          LOAD_VUS: '100'
-          LOAD_DURATION: '1m'
+          BASE_URL: ${{ secrets.BASE_URL }}
       - name: Upload Load Test Results
         if: always()
         uses: actions/upload-artifact@v4

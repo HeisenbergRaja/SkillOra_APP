@@ -1,0 +1,8 @@
+{
+  "name": "skillora-load-tests",
+  "version": "1.0.0",
+  "description": "Simple API Load Tests for SkillOra",
+  "scripts": {
+    "test:load": "k6 run scenarios/api-load-tests.js"
+  }
+}
