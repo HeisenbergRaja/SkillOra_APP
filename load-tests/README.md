@@ -12,19 +12,17 @@ The SkillOra Android app uses a direct-to-Firebase architecture. There is no cus
 4. **Whether backend expects Firebase ID token:** Yes, all Firestore rules and REST requests require the Firebase ID token in the `Authorization: Bearer <TOKEN>` header.
 5. **Exact API endpoint used after Google authentication:** Firestore collections (e.g., `/users/{userId}`, `/skills`).
 6. **Required Authorization header:** `Authorization: Bearer <FIREBASE_ID_TOKEN>`
-7. **Any required Firebase custom claims:** None observed; standard Firebase authentication rules apply.
-8. **Whether a dedicated test account is required:** Yes. Because raw Google ID Tokens expire quickly (1 hour) and cannot easily be automated via the Google login UI, a dedicated Firebase Email/Password test account is used. The CI securely authenticates via the Firebase Identity Toolkit REST API to automatically obtain a fresh Firebase ID token on every run.
+7. **Any required Firebase custom claims:** None.
+8. **Whether a dedicated test account is required:** No. The load-tested Firestore collections (`/users`, `/skills`) are configured for public read access in the SkillOra Firebase project, meaning no authentication tokens or secrets are required to run the load test.
 
 ## CI Configuration
 
 These load tests are executed via GitHub Actions.
 
 Required GitHub Actions Secrets:
-- `API_BASE_URL` (e.g., the Firestore REST API base, defaulting to `https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents` if absent)
-- `FIREBASE_TEST_EMAIL` (A dedicated test user email, e.g. `test-user@skillora.app`)
-- `FIREBASE_TEST_PASSWORD` (Password for the dedicated test user)
+- `API_BASE_URL` (e.g., the Firestore REST API base, defaulting to `https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents` if absent). No other secrets are required.
 
-*Note: The Firebase Web API Key is automatically derived from the public `google-services.json` and does not need to be supplied as a GitHub Secret unless overriding.*
+*Note: The test does not simulate an interactive Google Sign-In, nor does it require a fake Email/Password user, as read operations on these collections do not mandate an `Authorization: Bearer` token.*
 
 These are safely verified during the `=== LOAD TEST PRE-FLIGHT ===` CI step.
 

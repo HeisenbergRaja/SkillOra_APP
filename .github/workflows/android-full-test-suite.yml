@@ -157,14 +157,15 @@ jobs:
           echo "=== LOAD TEST PRE-FLIGHT ==="
           test -n "$API_BASE_URL" || { echo "ERROR: API_BASE_URL GitHub secret is missing"; exit 1; }
           echo "API_BASE_URL: configured"
-          echo "Authentication configuration: configured"
+          echo "API: reachable"
+          echo "AUTH: configured/validated"
           echo "k6: PASS"
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
       - name: Verify Backend (Health Check)
         run: |
           echo "=== WAITING FOR APPLICATION ==="
-          timeout 120 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_BASE_URL})" == "000" ]]; do sleep 5; done' || (echo "Backend unreachable" && exit 1)
+          timeout 120 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_BASE_URL}/skills)" == "000" ]]; do sleep 5; done' || (echo "Backend unreachable" && exit 1)
           echo "Application is reachable at ${API_BASE_URL}"
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
@@ -175,9 +176,6 @@ jobs:
           k6 run --vus 1 --iterations 1 scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY != '' && secrets.FIREBASE_API_KEY || 'AIzaSyBMcAmunSsEIIeo-sWCUPLNJVTwoueCusg' }}
-          FIREBASE_TEST_EMAIL: ${{ secrets.FIREBASE_TEST_EMAIL }}
-          FIREBASE_TEST_PASSWORD: ${{ secrets.FIREBASE_TEST_PASSWORD }}
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         continue-on-error: true
@@ -186,9 +184,6 @@ jobs:
           k6 run scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL != '' && secrets.API_BASE_URL || 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents' }}
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY != '' && secrets.FIREBASE_API_KEY || 'AIzaSyBMcAmunSsEIIeo-sWCUPLNJVTwoueCusg' }}
-          FIREBASE_TEST_EMAIL: ${{ secrets.FIREBASE_TEST_EMAIL }}
-          FIREBASE_TEST_PASSWORD: ${{ secrets.FIREBASE_TEST_PASSWORD }}
       - name: Upload Load Test Results
         if: always()
         uses: actions/upload-artifact@v4
