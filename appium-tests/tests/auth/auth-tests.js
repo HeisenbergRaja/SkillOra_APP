@@ -8,7 +8,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -19,7 +19,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -30,7 +30,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -41,7 +41,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -52,7 +52,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -63,7 +63,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -74,7 +74,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -85,7 +85,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -96,7 +96,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -107,7 +107,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -118,7 +118,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -129,7 +129,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -140,7 +140,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -151,7 +151,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -162,7 +162,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -173,7 +173,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -184,7 +184,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -195,7 +195,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -206,7 +206,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -217,7 +217,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -228,7 +228,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -239,7 +239,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -250,7 +250,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -261,7 +261,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -272,7 +272,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -283,7 +283,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -294,7 +294,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -305,7 +305,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -316,7 +316,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -327,7 +327,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -338,7 +338,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -349,7 +349,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -360,7 +360,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -371,7 +371,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -382,7 +382,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -393,7 +393,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -404,7 +404,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -415,7 +415,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -426,7 +426,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });
@@ -437,7 +437,7 @@ describe('Auth Module Tests', () => {
         expect(currentPackage).toContain('skillora');
         
         // Assert frame exists to prove UI is rendered
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 5000);
         expect(await root.isDisplayed()).toBe(true);
     });

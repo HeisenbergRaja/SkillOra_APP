@@ -171,7 +171,7 @@ adb -s "$ANDROID_DEVICE" install -r "$APK_PATH"
 
 echo "Verifying installation..."
 # Dynamically getting package from APK using aapt if available, else fallback
-APP_PACKAGE=$(aapt dump badging "$APK_PATH" | grep package | awk '{print $2}' | sed s/name=//g | sed s/\'//g || echo "com.simats.skillora")
+APP_PACKAGE=$(aapt dump badging "$APK_PATH" 2>/dev/null | grep package | awk '{print $2}' | sed s/name=//g | sed s/\'//g || echo "com.simats.skillora")
 echo "Detected package: $APP_PACKAGE"
 
 if ! adb -s "$ANDROID_DEVICE" shell pm list packages | grep -q "$APP_PACKAGE"; then
@@ -187,11 +187,11 @@ echo "=== STARTING APPIUM ==="
 cd appium-tests
 
 echo "=== APPIUM DRIVER CHECK ==="
-if npx appium driver list --installed | grep "uiautomator2" > /dev/null; then
-    echo "UiAutomator2 already installed"
-else
+if ! npx appium driver list --installed | grep -q "uiautomator2"; then
     echo "Installing UiAutomator2..."
     npx appium driver install uiautomator2 || echo "WARNING: Driver installation failed, but continuing..."
+else
+    echo "UiAutomator2 already installed"
 fi
 
 npx appium --address 127.0.0.1 --port 4723 --base-path / > appium.log 2>&1 &
@@ -215,6 +215,10 @@ if [ "$APPIUM_READY" -eq 0 ]; then
   collect_diagnostics
   exit 1
 fi
+
+echo "=== CLEANING OLD REPORTS ==="
+rm -f reports/json/*.json || true
+rm -f reports/appium-test-results.xlsx || true
 
 echo "=== RUNNING SMOKE TEST ==="
 npm run test:android:smoke

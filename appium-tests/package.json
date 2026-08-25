@@ -4,9 +4,9 @@
   "description": "Appium E2E tests for Skillora Android App",
   "main": "index.js",
   "scripts": {
-    "test:android": "NODE_OPTIONS=\"\" wdio run wdio.conf.js",
-    "test:android:serial": "NODE_OPTIONS=\"\" wdio run wdio.conf.js --maxInstances 1",
-    "test:android:smoke": "NODE_OPTIONS=\"\" wdio run wdio.conf.js --spec ./tests/smoke/01-smoke-test.js"
+    "test:android": "wdio run wdio.conf.js",
+    "test:android:serial": "wdio run wdio.conf.js --maxInstances 1",
+    "test:android:smoke": "wdio run wdio.conf.js --spec ./tests/smoke/01-smoke-test.js"
   },
   "devDependencies": {
     "@wdio/cli": "^8.36.1",

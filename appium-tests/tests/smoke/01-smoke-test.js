@@ -4,7 +4,7 @@ describe('SkillOra Android E2E - Smoke Tests', () => {
     
     it('APP-001: App should launch successfully', async () => {
         // Just verify the app is in foreground and we can find a root layout or a common element
-        const root = await $('android.widget.FrameLayout');
+        const root = await $('android=new UiSelector().className("android.widget.FrameLayout").instance(0)');
         await wait.waitForVisible(root, 30000);
         expect(await root.isDisplayed()).toBe(true);
     });
