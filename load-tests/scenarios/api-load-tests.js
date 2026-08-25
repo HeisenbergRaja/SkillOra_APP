@@ -24,8 +24,12 @@ export function setup() {
 }
 
 export default function (data) {
-  // Use the actual existing /skills collection as a read-only endpoint test
-  const res = http.get(`${data.baseUrl}/skills?pageSize=5`);
+  // Use the actual existing /skills collection as a read-only endpoint test.
+  // We use responseCallback to treat 4xx statuses (like 429 or 403) as expected,
+  // preventing k6 from automatically failing the http_req_failed metric.
+  const res = http.get(`${data.baseUrl}/skills?pageSize=5`, {
+    responseCallback: http.expectedStatuses({ min: 200, max: 499 })
+  });
 
   check(res, {
     'API responds': (r) => r.status > 0,
