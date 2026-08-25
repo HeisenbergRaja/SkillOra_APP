@@ -1,6 +1,6 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { options, BASE_URL, FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD } from '../k6-config.js';
+import { options, BASE_URL, FIREBASE_TEST_TOKEN } from '../k6-config.js';
 import { authenticateFirebase } from '../helpers/auth.js';
 
 export { options };
@@ -18,11 +18,8 @@ function safeJson(response) {
 
 export function setup() {
     console.log('=== AUTHENTICATION SETUP ===');
-    if (!FIREBASE_API_KEY) {
-        throw new Error('FIREBASE_API_KEY is not configured');
-    }
-    if (!FIREBASE_TEST_EMAIL || !FIREBASE_TEST_PASSWORD) {
-        throw new Error('Firebase test credentials are not configured');
+    if (!FIREBASE_TEST_TOKEN) {
+        throw new Error('FIREBASE_TEST_TOKEN is not configured');
     }
     if (!BASE_URL) {
         throw new Error('API_BASE_URL is not configured');
@@ -31,7 +28,7 @@ export function setup() {
         throw new Error(`Invalid API_BASE_URL: ${BASE_URL}`);
     }
 
-    const authData = authenticateFirebase(FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD);
+    const authData = authenticateFirebase(FIREBASE_TEST_TOKEN);
     console.log(`Test token: obtained (User: ${authData.userId})`);
     return authData;
 }

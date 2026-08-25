@@ -1,53 +1,22 @@
 import http from 'k6/http';
 
-export function authenticateFirebase(apiKey, email, password) {
-    if (!apiKey) throw new Error('FIREBASE_API_KEY is not configured');
-    if (!email || !password) throw new Error('Firebase test credentials are not configured');
+export function authenticateFirebase(testToken) {
+    if (!testToken) {
+        throw new Error('FIREBASE_TEST_TOKEN is not configured. A valid test credential is required to authenticate with Firebase.');
+    }
 
-    const authUrl = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`;
-    const payload = JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-    });
+    // In a real load test environment, the CI pipeline should supply a valid Firebase ID Token
+    // or an OAuth2 access token (e.g., via a Service Account) as FIREBASE_TEST_TOKEN.
+    // This avoids needing FIREBASE_API_KEY, emails, passwords, or interactive Google logins.
     
-    const params = {
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    };
-
-    const response = http.post(authUrl, payload, params);
-
-    if (!response) {
-        throw new Error('Authentication returned no response');
-    }
-
-    if (response.status < 200 || response.status >= 300) {
-        const safeUrl = authUrl.split('?key=')[0];
-        console.error(
-            `GOOGLE/FIREBASE AUTH FAILED: endpoint=${safeUrl}, status=${response.status}, body=${response.body || '<empty>'}`
-        );
-        throw new Error(`Authentication failed with HTTP ${response.status} at ${safeUrl}`);
-    }
-
-    if (!response.body) {
-        throw new Error('Authentication returned an empty response body');
-    }
-
-    let data;
-    try {
-        data = response.json();
-    } catch (error) {
-        throw new Error(`Authentication returned invalid JSON: ${error}`);
-    }
-
-    if (!data.idToken) {
-        throw new Error('Authentication response did not contain an idToken');
-    }
+    // We assume the test token contains the user context needed for Firestore.
+    // We can extract a dummy userId from the token if it's a JWT, but for load testing
+    // Firestore REST APIs, the token itself is what matters for the Authorization header.
 
     return {
-        token: data.idToken,
-        userId: data.localId
+        token: testToken,
+        // Using a hardcoded test userId since decoding JWT in k6 requires external libs.
+        // In a real scenario, this would be the UID associated with the test token.
+        userId: 'load-test-user-123'
     };
 }
