@@ -5,25 +5,40 @@ import { authenticateFirebase } from '../helpers/auth.js';
 
 export { options };
 
+function safeJson(response) {
+    if (!response || !response.body) {
+        return null;
+    }
+    try {
+        return response.json();
+    } catch (error) {
+        return null;
+    }
+}
+
 export function setup() {
-    // Authenticate once per test run using Firebase Identity Toolkit
-    console.log('Authenticating with Firebase...');
+    console.log('=== AUTHENTICATION SETUP ===');
+    if (!FIREBASE_API_KEY) {
+        throw new Error('FIREBASE_API_KEY is not configured');
+    }
+    if (!FIREBASE_TEST_EMAIL || !FIREBASE_TEST_PASSWORD) {
+        throw new Error('Firebase test credentials are not configured');
+    }
+    if (!BASE_URL) {
+        throw new Error('API_BASE_URL is not configured');
+    }
+    if (!/^https?:\/\//.test(BASE_URL)) {
+        throw new Error(`Invalid API_BASE_URL: ${BASE_URL}`);
+    }
+
     const authData = authenticateFirebase(FIREBASE_API_KEY, FIREBASE_TEST_EMAIL, FIREBASE_TEST_PASSWORD);
-    console.log(`Authenticated successfully as user: ${authData.userId}`);
+    console.log(`Test token: obtained (User: ${authData.userId})`);
     return authData;
 }
 
 export default function (data) {
     if (!data || !data.token) {
         throw new Error('No authentication data received from setup()');
-    }
-
-    if (!BASE_URL) {
-        throw new Error('API_BASE_URL is not configured');
-    }
-
-    if (!/^https?:\/\//.test(BASE_URL)) {
-        throw new Error(`Invalid API_BASE_URL: ${BASE_URL}`);
     }
 
     const authParams = {
@@ -34,16 +49,17 @@ export default function (data) {
     };
 
     // LOAD-101: Get Profile from Firestore
-    // Expected endpoint: https://firestore.googleapis.com/v1/projects/{project}/databases/(default)/documents/users/{userId}
     let profileRes = http.get(`${BASE_URL}/users/${data.userId}`, authParams);
     check(profileRes, {
-        'LOAD-101: profile status is 200': (r) => r.status === 200,
+        'HTTP request: PASS (profile)': (r) => r.status === 200,
+        'Authentication: PASS (profile)': (r) => r.status !== 401 && r.status !== 403,
     });
 
     // LOAD-201: Get Marketplace Skills from Firestore
     let skillsRes = http.get(`${BASE_URL}/skills`, authParams);
     check(skillsRes, {
-        'LOAD-201: skills status is 200': (r) => r.status === 200,
+        'HTTP request: PASS (skills)': (r) => r.status === 200,
+        'Authentication: PASS (skills)': (r) => r.status !== 401 && r.status !== 403,
     });
 
     sleep(1);

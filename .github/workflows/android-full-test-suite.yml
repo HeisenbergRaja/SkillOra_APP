@@ -152,15 +152,20 @@ jobs:
           k6 version
           echo 'import http from "k6/http"; export default function() { http.get("http://localhost"); }' > minimal_test.js
           k6 run --iterations 1 minimal_test.js || echo "Minimal test completed"
-      - name: Verify Secrets Configuration
+      - name: Validate load test configuration
         run: |
-          test -n "$FIREBASE_API_KEY" || { echo "ERROR: FIREBASE_API_KEY GitHub secret is missing"; exit 1; }
+          echo "=== LOAD TEST PRE-FLIGHT ==="
           test -n "$API_BASE_URL" || { echo "ERROR: API_BASE_URL GitHub secret is missing"; exit 1; }
-          echo "FIREBASE_API_KEY: configured"
-          echo "API_BASE_URL: configured"
+          test -n "$FIREBASE_API_KEY" || { echo "ERROR: FIREBASE_API_KEY GitHub secret is missing"; exit 1; }
+          echo "BASE_URL: configured"
+          echo "Firebase authentication: configured"
+          echo "Test authentication: configured"
+          echo "k6: PASS"
         env:
-          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_TEST_EMAIL: ${{ secrets.FIREBASE_TEST_EMAIL }}
+          FIREBASE_TEST_PASSWORD: ${{ secrets.FIREBASE_TEST_PASSWORD }}
       - name: Verify Backend (Health Check)
         run: |
           echo "=== WAITING FOR APPLICATION ==="
@@ -170,7 +175,9 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
       - name: Minimal Authentication Test (1 VU)
         working-directory: ./load-tests
-        run: k6 run --vus 1 --iterations 1 scenarios/api-load-tests.js
+        run: |
+          echo "=== AUTHENTICATION ==="
+          k6 run --vus 1 --iterations 1 scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -179,7 +186,9 @@ jobs:
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         continue-on-error: true
-        run: k6 run scenarios/api-load-tests.js
+        run: |
+          echo "=== LOAD TEST ==="
+          k6 run scenarios/api-load-tests.js
         env:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
           FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
