@@ -24,10 +24,11 @@ export function authenticateFirebase(apiKey, email, password) {
     }
 
     if (response.status < 200 || response.status >= 300) {
+        const safeUrl = authUrl.split('?key=')[0];
         console.error(
-            `GOOGLE/FIREBASE AUTH FAILED: status=${response.status}, body=${response.body || '<empty>'}`
+            `GOOGLE/FIREBASE AUTH FAILED: endpoint=${safeUrl}, status=${response.status}, body=${response.body || '<empty>'}`
         );
-        throw new Error(`Authentication failed with HTTP ${response.status}`);
+        throw new Error(`Authentication failed with HTTP ${response.status} at ${safeUrl}`);
     }
 
     if (!response.body) {
