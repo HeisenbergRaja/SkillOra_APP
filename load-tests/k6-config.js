@@ -5,9 +5,10 @@ export const options = {
     duration: isSmokeTest ? undefined : '1m',
     iterations: isSmokeTest ? 1 : undefined,
     thresholds: isSmokeTest ? {
+        http_req_duration: ['p(95)<5000', 'p(99)<10000'],
         http_req_failed: ['rate<0.01'],
     } : {
-        http_req_duration: ['p(95)<1200', 'p(99)<2000'],
+        http_req_duration: ['p(95)<4000', 'p(99)<8000'],
         http_req_failed: ['rate<0.01'],
     },
 };

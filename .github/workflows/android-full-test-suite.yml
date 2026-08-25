@@ -179,7 +179,6 @@ jobs:
           IS_SMOKE_TEST: 'true'
       - name: Run k6 Load Tests
         working-directory: ./load-tests
-        continue-on-error: true
         run: |
           echo "=== LOAD TEST ==="
           k6 run scenarios/api-load-tests.js

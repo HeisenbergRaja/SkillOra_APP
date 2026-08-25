@@ -30,9 +30,9 @@ export function setup() {
 }
 
 function logRequest(name, method, url, res) {
-    // Only log occasionally during full load to avoid flooding console,
-    // but log every time during smoke test.
-    if (__ENV.IS_SMOKE_TEST === 'true' || Math.random() < 0.05) {
+    if (res.status >= 400 || res.status === 0) {
+        console.error(`\nREQUEST FAILED\nURL: ${url}\nSTATUS: ${res.status}\nDURATION: ${res.timings ? res.timings.duration.toFixed(2) : 0}ms\nBODY: ${res.body ? res.body.substring(0, 500) : '<empty>'}\nERROR: ${res.error || 'N/A'}`);
+    } else if (__ENV.IS_SMOKE_TEST === 'true' || Math.random() < 0.05) {
         console.log(`\nAPI REQUEST:\n  name: ${name}\n  method: ${method}\n  path: ${url.replace(/https?:\/\/[^\/]+/, '')}\n  status: ${res.status}\n  duration: ${res.timings.duration.toFixed(2)}ms\n  size: ${res.body ? res.body.length : 0} bytes`);
     }
 }
