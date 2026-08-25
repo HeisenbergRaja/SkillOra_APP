@@ -10,24 +10,22 @@ export const options = {
   },
 };
 
+const BASE_URL = __ENV.BASE_URL;
+
 export function setup() {
-    console.log('=== SKILLORA LOAD TEST ===');
-    const baseUrl = __ENV.BASE_URL;
-    
-    if (!baseUrl) {
+    if (!BASE_URL) {
         throw new Error('BASE_URL is not configured');
     }
-    if (!/^https?:\/\//.test(baseUrl)) {
-        throw new Error(`Invalid BASE_URL protocol. Must start with http:// or https:// (got: ${baseUrl})`);
+    if (!/^https?:\/\//.test(BASE_URL)) {
+        throw new Error(`Invalid BASE_URL protocol. Must start with http:// or https:// (got: ${BASE_URL})`);
     }
     
-    console.log('BASE_URL configured: YES');
-    console.log('Starting k6...');
-    return { baseUrl: baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl };
+    return { baseUrl: BASE_URL.endsWith('/') ? BASE_URL.slice(0, -1) : BASE_URL };
 }
 
 export default function (data) {
-  const res = http.get(`${data.baseUrl}/health`);
+  // Use the actual existing /skills collection as a read-only endpoint test
+  const res = http.get(`${data.baseUrl}/skills?pageSize=5`);
 
   check(res, {
     'API responds': (r) => r.status > 0,

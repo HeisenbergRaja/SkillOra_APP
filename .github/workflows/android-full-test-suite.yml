@@ -154,22 +154,21 @@ jobs:
           k6 run --iterations 1 minimal_test.js || echo "Minimal test completed"
       - name: Validate load test configuration
         run: |
-          echo "=== LOAD TEST PRE-FLIGHT ==="
+          echo "=== SKILLORA LOAD TEST PRE-FLIGHT ==="
           if [ -z "$BASE_URL" ]; then
             echo "ERROR: BASE_URL must be configured."
             exit 1
           fi
-          echo "BASE_URL configured: YES"
-          echo "Starting k6..."
+          echo "BASE_URL: configured"
+          echo "=== STARTING LOAD TEST ==="
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents'
       - name: Run k6 Load Tests
         working-directory: ./load-tests
         run: |
-          echo "=== SKILLORA LOAD TEST ==="
           k6 run scenarios/api-load-tests.js
         env:
-          BASE_URL: ${{ secrets.BASE_URL }}
+          BASE_URL: 'https://firestore.googleapis.com/v1/projects/skillora-e2114/databases/(default)/documents'
       - name: Upload Load Test Results
         if: always()
         uses: actions/upload-artifact@v4
