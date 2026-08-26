@@ -54,7 +54,7 @@ describe('generate-appium-report', () => {
         // Verify the excel output
         const workbook = new ExcelJS.Workbook();
         await workbook.xlsx.readFile(outputExcel);
-        const sheet = workbook.getWorksheet('Test Details');
+        const sheet = workbook.getWorksheet('Appium Test Results');
         
         const testNames = [];
         sheet.eachRow((row, rowNumber) => {
