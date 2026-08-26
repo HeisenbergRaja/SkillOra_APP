@@ -2,7 +2,7 @@ const wait = require('../../helpers/wait');
 
 describe('Auth Module Tests', () => {
 
-    it('APP-006: Verify Auth functionality 1', async () => {
+    it('APP-006: Verify Authentication functionality on /login - Test 6', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -13,7 +13,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-007: Verify Auth functionality 2', async () => {
+    it('APP-007: Verify Authentication functionality on /login - Test 7', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -24,7 +24,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-008: Verify Auth functionality 3', async () => {
+    it('APP-008: Verify Authentication functionality on /login - Test 8', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -35,7 +35,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-009: Verify Auth functionality 4', async () => {
+    it('APP-009: Verify Authentication functionality on /login - Test 9', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -46,7 +46,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-010: Verify Auth functionality 5', async () => {
+    it('APP-010: Verify Authentication handles invalid input on /login - Test 10', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -57,7 +57,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-011: Verify Auth functionality 6', async () => {
+    it('APP-011: Verify Authentication functionality on /login - Test 11', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -68,7 +68,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-012: Verify Auth functionality 7', async () => {
+    it('APP-012: Verify Authentication functionality on /login - Test 12', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -79,7 +79,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-013: Verify Auth functionality 8', async () => {
+    it('APP-013: Verify Authentication functionality on /login - Test 13', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -90,7 +90,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-014: Verify Auth functionality 9', async () => {
+    it('APP-014: Verify Authentication functionality on /login - Test 14', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -101,7 +101,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-015: Verify Auth functionality 10', async () => {
+    it('APP-015: Verify Authentication handles invalid input on /login - Test 15', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -112,7 +112,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-016: Verify Auth functionality 11', async () => {
+    it('APP-016: Verify Authentication functionality on /login - Test 16', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -123,7 +123,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-017: Verify Auth functionality 12', async () => {
+    it('APP-017: Verify Authentication functionality on /login - Test 17', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -134,7 +134,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-018: Verify Auth functionality 13', async () => {
+    it('APP-018: Verify Authentication functionality on /login - Test 18', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -145,7 +145,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-019: Verify Auth functionality 14', async () => {
+    it('APP-019: Verify Authentication functionality on /login - Test 19', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -156,7 +156,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-020: Verify Auth functionality 15', async () => {
+    it('APP-020: Verify Authentication handles invalid input on /login - Test 20', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -167,7 +167,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-021: Verify Auth functionality 16', async () => {
+    it('APP-021: Verify Authentication functionality on /login - Test 21', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -178,7 +178,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-022: Verify Auth functionality 17', async () => {
+    it('APP-022: Verify Authentication functionality on /login - Test 22', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -189,7 +189,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-023: Verify Auth functionality 18', async () => {
+    it('APP-023: Verify Authentication functionality on /login - Test 23', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -200,7 +200,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-024: Verify Auth functionality 19', async () => {
+    it('APP-024: Verify Authentication functionality on /login - Test 24', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -211,7 +211,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-025: Verify Auth functionality 20', async () => {
+    it('APP-025: Verify Authentication handles invalid input on /login - Test 25', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -222,7 +222,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-026: Verify Auth functionality 21', async () => {
+    it('APP-026: Verify Authentication functionality on /login - Test 26', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -233,7 +233,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-027: Verify Auth functionality 22', async () => {
+    it('APP-027: Verify Authentication functionality on /login - Test 27', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -244,7 +244,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-028: Verify Auth functionality 23', async () => {
+    it('APP-028: Verify Authentication functionality on /login - Test 28', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -255,7 +255,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-029: Verify Auth functionality 24', async () => {
+    it('APP-029: Verify Authentication functionality on /login - Test 29', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -266,7 +266,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-030: Verify Auth functionality 25', async () => {
+    it('APP-030: Verify Authentication handles invalid input on /login - Test 30', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -277,7 +277,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-031: Verify Auth functionality 26', async () => {
+    it('APP-031: Verify Authentication functionality on /login - Test 31', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -288,7 +288,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-032: Verify Auth functionality 27', async () => {
+    it('APP-032: Verify Authentication functionality on /login - Test 32', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -299,7 +299,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-033: Verify Auth functionality 28', async () => {
+    it('APP-033: Verify Authentication functionality on /login - Test 33', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -310,7 +310,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-034: Verify Auth functionality 29', async () => {
+    it('APP-034: Verify Authentication functionality on /login - Test 34', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -321,7 +321,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-035: Verify Auth functionality 30', async () => {
+    it('APP-035: Verify Authentication handles invalid input on /login - Test 35', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -332,7 +332,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-036: Verify Auth functionality 31', async () => {
+    it('APP-036: Verify Authentication functionality on /login - Test 36', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -343,7 +343,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-037: Verify Auth functionality 32', async () => {
+    it('APP-037: Verify Authentication functionality on /login - Test 37', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -354,7 +354,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-038: Verify Auth functionality 33', async () => {
+    it('APP-038: Verify Authentication functionality on /login - Test 38', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -365,7 +365,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-039: Verify Auth functionality 34', async () => {
+    it('APP-039: Verify Authentication functionality on /login - Test 39', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -376,7 +376,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-040: Verify Auth functionality 35', async () => {
+    it('APP-040: Verify Authentication handles invalid input on /login - Test 40', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -387,7 +387,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-041: Verify Auth functionality 36', async () => {
+    it('APP-041: Verify Authentication functionality on /login - Test 41', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -398,7 +398,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-042: Verify Auth functionality 37', async () => {
+    it('APP-042: Verify Authentication functionality on /login - Test 42', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -409,7 +409,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-043: Verify Auth functionality 38', async () => {
+    it('APP-043: Verify Authentication functionality on /login - Test 43', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -420,7 +420,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-044: Verify Auth functionality 39', async () => {
+    it('APP-044: Verify Authentication functionality on /login - Test 44', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -431,7 +431,7 @@ describe('Auth Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-045: Verify Auth functionality 40', async () => {
+    it('APP-045: Verify Authentication handles invalid input on /login - Test 45', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');

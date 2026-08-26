@@ -2,7 +2,7 @@ const wait = require('../../helpers/wait');
 
 describe('Navigation Module Tests', () => {
 
-    it('APP-306: Verify Navigation functionality 1', async () => {
+    it('APP-306: Verify Navigation functionality on /register - Test 306', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -13,7 +13,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-307: Verify Navigation functionality 2', async () => {
+    it('APP-307: Verify Navigation functionality on /register - Test 307', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -24,7 +24,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-308: Verify Navigation functionality 3', async () => {
+    it('APP-308: Verify Navigation functionality on /register - Test 308', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -35,7 +35,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-309: Verify Navigation functionality 4', async () => {
+    it('APP-309: Verify Navigation functionality on /register - Test 309', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -46,7 +46,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-310: Verify Navigation functionality 5', async () => {
+    it('APP-310: Verify Navigation handles invalid input on /register - Test 310', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -57,7 +57,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-311: Verify Navigation functionality 6', async () => {
+    it('APP-311: Verify Navigation functionality on /register - Test 311', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -68,7 +68,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-312: Verify Navigation functionality 7', async () => {
+    it('APP-312: Verify Navigation functionality on /register - Test 312', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -79,7 +79,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-313: Verify Navigation functionality 8', async () => {
+    it('APP-313: Verify Navigation functionality on /register - Test 313', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -90,7 +90,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-314: Verify Navigation functionality 9', async () => {
+    it('APP-314: Verify Navigation functionality on /register - Test 314', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -101,7 +101,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-315: Verify Navigation functionality 10', async () => {
+    it('APP-315: Verify Navigation handles invalid input on /register - Test 315', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -112,7 +112,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-316: Verify Navigation functionality 11', async () => {
+    it('APP-316: Verify Navigation functionality on /register - Test 316', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -123,7 +123,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-317: Verify Navigation functionality 12', async () => {
+    it('APP-317: Verify Navigation functionality on /register - Test 317', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -134,7 +134,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-318: Verify Navigation functionality 13', async () => {
+    it('APP-318: Verify Navigation functionality on /register - Test 318', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -145,7 +145,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-319: Verify Navigation functionality 14', async () => {
+    it('APP-319: Verify Navigation functionality on /register - Test 319', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -156,7 +156,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-320: Verify Navigation functionality 15', async () => {
+    it('APP-320: Verify Navigation handles invalid input on /register - Test 320', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -167,7 +167,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-321: Verify Navigation functionality 16', async () => {
+    it('APP-321: Verify Navigation functionality on /register - Test 321', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -178,7 +178,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-322: Verify Navigation functionality 17', async () => {
+    it('APP-322: Verify Navigation functionality on /register - Test 322', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -189,7 +189,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-323: Verify Navigation functionality 18', async () => {
+    it('APP-323: Verify Navigation functionality on /register - Test 323', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -200,7 +200,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-324: Verify Navigation functionality 19', async () => {
+    it('APP-324: Verify Navigation functionality on /register - Test 324', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -211,7 +211,7 @@ describe('Navigation Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-325: Verify Navigation functionality 20', async () => {
+    it('APP-325: Verify Navigation handles invalid input on /register - Test 325', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');

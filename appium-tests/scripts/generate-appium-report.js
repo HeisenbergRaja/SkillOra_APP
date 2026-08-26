@@ -46,26 +46,40 @@ async function generateReport() {
                     suite.tests.forEach(test => {
                         totalTests++;
                         totalDuration += test.duration || 0;
-                        categories[category].total++;
                         
                         const state = String(test.state || (test.passed ? 'passed' : 'failed'));
-                        
                         let statusStr = state.toUpperCase();
                         
                         // Extract test name
                         let testTitle = test.title || test.name || test.testName || '';
                         
                         if (!testTitle && (test.fullTitle || test.fullName)) {
-                            // If title is missing but fullTitle exists, just use fullTitle entirely
-                            // without prepending suite names to avoid duplication
                             testTitle = test.fullTitle || test.fullName;
                         }
 
                         let finalTestName = '';
+                        // Strip APP-ID prefix from title if it exists
+                        const appPrefixMatch = testTitle.match(/^APP-\d+:\s*(.*)/);
+                        if (appPrefixMatch) {
+                            testTitle = appPrefixMatch[1];
+                        }
+                        
+                        // Extract feature for category from standard format: Verify <Feature> functionality...
+                        const featureMatch = testTitle.match(/^Verify\s+(.*?)\s+(?:functionality|handles)/);
+                        let testCategory = category; // fallback to suite-level category
+                        if (featureMatch) {
+                            testCategory = featureMatch[1].trim();
+                        }
+                        if (!categories[testCategory]) categories[testCategory] = { total: 0, passed: 0, failed: 0, skipped: 0 };
+                        
+                        categories[testCategory].total++;
+                        
                         if (testTitle && (test.fullTitle || test.fullName) === testTitle) {
-                             // Sometimes fullTitle is the same as title and includes suite
                              finalTestName = testTitle;
                         } else if (testTitle && testTitle === (test.fullTitle || test.fullName)) {
+                             finalTestName = testTitle;
+                        } else if (testTitle && testTitle.startsWith('Verify ')) {
+                             // If it's already a descriptive standalone name, don't prepend suite
                              finalTestName = testTitle;
                         } else {
                             let fullNameParts = [...currentTitles];
@@ -76,15 +90,21 @@ async function generateReport() {
                         // Try fallback fields if empty or if it just matches the suite name
                         if (!finalTestName || finalTestName === currentTitles.join(' > ').trim()) {
                             finalTestName = test.fullTitle || test.fullName || (currentTitles.length > 0 ? currentTitles.join(' > ') + ' > Unknown Test' : 'Unknown Test');
+                            
+                            // Strip prefix again for fallbacks
+                            const fallbackPrefixMatch = finalTestName.match(/^APP-\d+:\s*(.*)/);
+                            if (fallbackPrefixMatch) {
+                                finalTestName = fallbackPrefixMatch[1];
+                            }
                         }
                         
                         if (state === 'passed') {
                             passed++;
-                            categories[category].passed++;
+                            categories[testCategory].passed++;
                             statusStr = 'EXECUTED/PASSED';
                         } else if (state === 'failed') {
                             failed++;
-                            categories[category].failed++;
+                            categories[testCategory].failed++;
                             statusStr = 'EXECUTED/FAILED';
                             failures.push({
                                 id: `APP-${String(totalTests).padStart(3, '0')}`,
@@ -93,13 +113,13 @@ async function generateReport() {
                             });
                         } else {
                             skipped++;
-                            categories[category].skipped++;
+                            categories[testCategory].skipped++;
                             statusStr = 'BLOCKED';
                         }
                         
                         allTests.push({
                             id: `APP-${String(totalTests).padStart(3, '0')}`,
-                            category,
+                            category: testCategory,
                             name: finalTestName,
                             status: statusStr,
                             duration: test.duration || 0,

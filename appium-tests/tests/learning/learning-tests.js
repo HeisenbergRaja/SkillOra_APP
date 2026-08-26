@@ -2,7 +2,7 @@ const wait = require('../../helpers/wait');
 
 describe('Learning Module Tests', () => {
 
-    it('APP-156: Verify Learning functionality 1', async () => {
+    it('APP-156: Verify My Learning functionality on /learning - Test 156', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -13,7 +13,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-157: Verify Learning functionality 2', async () => {
+    it('APP-157: Verify My Learning functionality on /learning - Test 157', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -24,7 +24,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-158: Verify Learning functionality 3', async () => {
+    it('APP-158: Verify My Learning functionality on /learning - Test 158', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -35,7 +35,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-159: Verify Learning functionality 4', async () => {
+    it('APP-159: Verify My Learning functionality on /learning - Test 159', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -46,7 +46,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-160: Verify Learning functionality 5', async () => {
+    it('APP-160: Verify My Learning handles invalid input on /learning - Test 160', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -57,7 +57,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-161: Verify Learning functionality 6', async () => {
+    it('APP-161: Verify My Learning functionality on /learning - Test 161', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -68,7 +68,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-162: Verify Learning functionality 7', async () => {
+    it('APP-162: Verify My Learning functionality on /learning - Test 162', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -79,7 +79,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-163: Verify Learning functionality 8', async () => {
+    it('APP-163: Verify My Learning functionality on /learning - Test 163', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -90,7 +90,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-164: Verify Learning functionality 9', async () => {
+    it('APP-164: Verify My Learning functionality on /learning - Test 164', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -101,7 +101,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-165: Verify Learning functionality 10', async () => {
+    it('APP-165: Verify My Learning handles invalid input on /learning - Test 165', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -112,7 +112,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-166: Verify Learning functionality 11', async () => {
+    it('APP-166: Verify My Learning functionality on /learning - Test 166', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -123,7 +123,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-167: Verify Learning functionality 12', async () => {
+    it('APP-167: Verify My Learning functionality on /learning - Test 167', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -134,7 +134,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-168: Verify Learning functionality 13', async () => {
+    it('APP-168: Verify My Learning functionality on /learning - Test 168', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -145,7 +145,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-169: Verify Learning functionality 14', async () => {
+    it('APP-169: Verify My Learning functionality on /learning - Test 169', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -156,7 +156,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-170: Verify Learning functionality 15', async () => {
+    it('APP-170: Verify My Learning handles invalid input on /learning - Test 170', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -167,7 +167,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-171: Verify Learning functionality 16', async () => {
+    it('APP-171: Verify My Learning functionality on /learning - Test 171', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -178,7 +178,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-172: Verify Learning functionality 17', async () => {
+    it('APP-172: Verify My Learning functionality on /learning - Test 172', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -189,7 +189,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-173: Verify Learning functionality 18', async () => {
+    it('APP-173: Verify My Learning functionality on /learning - Test 173', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -200,7 +200,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-174: Verify Learning functionality 19', async () => {
+    it('APP-174: Verify My Learning functionality on /learning - Test 174', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -211,7 +211,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-175: Verify Learning functionality 20', async () => {
+    it('APP-175: Verify My Learning handles invalid input on /learning - Test 175', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -222,7 +222,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-176: Verify Learning functionality 21', async () => {
+    it('APP-176: Verify My Learning functionality on /learning - Test 176', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -233,7 +233,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-177: Verify Learning functionality 22', async () => {
+    it('APP-177: Verify My Learning functionality on /learning - Test 177', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -244,7 +244,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-178: Verify Learning functionality 23', async () => {
+    it('APP-178: Verify My Learning functionality on /learning - Test 178', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -255,7 +255,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-179: Verify Learning functionality 24', async () => {
+    it('APP-179: Verify My Learning functionality on /learning - Test 179', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -266,7 +266,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-180: Verify Learning functionality 25', async () => {
+    it('APP-180: Verify My Learning handles invalid input on /learning - Test 180', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -277,7 +277,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-181: Verify Learning functionality 26', async () => {
+    it('APP-181: Verify My Learning functionality on /learning - Test 181', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -288,7 +288,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-182: Verify Learning functionality 27', async () => {
+    it('APP-182: Verify My Learning functionality on /learning - Test 182', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -299,7 +299,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-183: Verify Learning functionality 28', async () => {
+    it('APP-183: Verify My Learning functionality on /learning - Test 183', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -310,7 +310,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-184: Verify Learning functionality 29', async () => {
+    it('APP-184: Verify My Learning functionality on /learning - Test 184', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -321,7 +321,7 @@ describe('Learning Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-185: Verify Learning functionality 30', async () => {
+    it('APP-185: Verify My Learning handles invalid input on /learning - Test 185', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');

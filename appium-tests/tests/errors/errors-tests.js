@@ -2,7 +2,7 @@ const wait = require('../../helpers/wait');
 
 describe('Errors Module Tests', () => {
 
-    it('APP-326: Verify Errors functionality 1', async () => {
+    it('APP-326: Verify Error Handling handles invalid input on / - Test 326', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -13,7 +13,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-327: Verify Errors functionality 2', async () => {
+    it('APP-327: Verify Error Handling handles invalid input on / - Test 327', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -24,7 +24,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-328: Verify Errors functionality 3', async () => {
+    it('APP-328: Verify Error Handling handles invalid input on / - Test 328', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -35,7 +35,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-329: Verify Errors functionality 4', async () => {
+    it('APP-329: Verify Error Handling handles invalid input on / - Test 329', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -46,7 +46,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-330: Verify Errors functionality 5', async () => {
+    it('APP-330: Verify Error Handling handles invalid input on / - Test 330', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -57,7 +57,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-331: Verify Errors functionality 6', async () => {
+    it('APP-331: Verify Error Handling handles invalid input on / - Test 331', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -68,7 +68,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-332: Verify Errors functionality 7', async () => {
+    it('APP-332: Verify Error Handling handles invalid input on / - Test 332', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -79,7 +79,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-333: Verify Errors functionality 8', async () => {
+    it('APP-333: Verify Error Handling handles invalid input on / - Test 333', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -90,7 +90,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-334: Verify Errors functionality 9', async () => {
+    it('APP-334: Verify Error Handling handles invalid input on / - Test 334', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -101,7 +101,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-335: Verify Errors functionality 10', async () => {
+    it('APP-335: Verify Error Handling handles invalid input on / - Test 335', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -112,7 +112,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-336: Verify Errors functionality 11', async () => {
+    it('APP-336: Verify Error Handling handles invalid input on / - Test 336', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -123,7 +123,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-337: Verify Errors functionality 12', async () => {
+    it('APP-337: Verify Error Handling handles invalid input on / - Test 337', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -134,7 +134,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-338: Verify Errors functionality 13', async () => {
+    it('APP-338: Verify Error Handling handles invalid input on / - Test 338', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -145,7 +145,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-339: Verify Errors functionality 14', async () => {
+    it('APP-339: Verify Error Handling handles invalid input on / - Test 339', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -156,7 +156,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-340: Verify Errors functionality 15', async () => {
+    it('APP-340: Verify Error Handling handles invalid input on / - Test 340', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -167,7 +167,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-341: Verify Errors functionality 16', async () => {
+    it('APP-341: Verify Error Handling handles invalid input on / - Test 341', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -178,7 +178,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-342: Verify Errors functionality 17', async () => {
+    it('APP-342: Verify Error Handling handles invalid input on / - Test 342', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -189,7 +189,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-343: Verify Errors functionality 18', async () => {
+    it('APP-343: Verify Error Handling handles invalid input on / - Test 343', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -200,7 +200,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-344: Verify Errors functionality 19', async () => {
+    it('APP-344: Verify Error Handling handles invalid input on / - Test 344', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -211,7 +211,7 @@ describe('Errors Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-345: Verify Errors functionality 20', async () => {
+    it('APP-345: Verify Error Handling handles invalid input on / - Test 345', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');

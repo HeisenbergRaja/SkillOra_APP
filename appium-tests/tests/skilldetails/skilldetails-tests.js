@@ -2,7 +2,7 @@ const wait = require('../../helpers/wait');
 
 describe('SkillDetails Module Tests', () => {
 
-    it('APP-106: Verify SkillDetails functionality 1', async () => {
+    it('APP-106: Verify Skill Details functionality on /profile - Test 106', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -13,7 +13,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-107: Verify SkillDetails functionality 2', async () => {
+    it('APP-107: Verify Skill Details functionality on /profile - Test 107', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -24,7 +24,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-108: Verify SkillDetails functionality 3', async () => {
+    it('APP-108: Verify Skill Details functionality on /profile - Test 108', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -35,7 +35,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-109: Verify SkillDetails functionality 4', async () => {
+    it('APP-109: Verify Skill Details functionality on /profile - Test 109', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -46,7 +46,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-110: Verify SkillDetails functionality 5', async () => {
+    it('APP-110: Verify Skill Details handles invalid input on /profile - Test 110', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -57,7 +57,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-111: Verify SkillDetails functionality 6', async () => {
+    it('APP-111: Verify Skill Details functionality on /profile - Test 111', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -68,7 +68,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-112: Verify SkillDetails functionality 7', async () => {
+    it('APP-112: Verify Skill Details functionality on /profile - Test 112', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -79,7 +79,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-113: Verify SkillDetails functionality 8', async () => {
+    it('APP-113: Verify Skill Details functionality on /profile - Test 113', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -90,7 +90,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-114: Verify SkillDetails functionality 9', async () => {
+    it('APP-114: Verify Skill Details functionality on /profile - Test 114', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -101,7 +101,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-115: Verify SkillDetails functionality 10', async () => {
+    it('APP-115: Verify Skill Details handles invalid input on /profile - Test 115', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -112,7 +112,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-116: Verify SkillDetails functionality 11', async () => {
+    it('APP-116: Verify Skill Details functionality on /profile - Test 116', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -123,7 +123,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-117: Verify SkillDetails functionality 12', async () => {
+    it('APP-117: Verify Skill Details functionality on /profile - Test 117', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -134,7 +134,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-118: Verify SkillDetails functionality 13', async () => {
+    it('APP-118: Verify Skill Details functionality on /profile - Test 118', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -145,7 +145,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-119: Verify SkillDetails functionality 14', async () => {
+    it('APP-119: Verify Skill Details functionality on /profile - Test 119', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -156,7 +156,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-120: Verify SkillDetails functionality 15', async () => {
+    it('APP-120: Verify Skill Details handles invalid input on /profile - Test 120', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -167,7 +167,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-121: Verify SkillDetails functionality 16', async () => {
+    it('APP-121: Verify Skill Details functionality on /profile - Test 121', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -178,7 +178,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-122: Verify SkillDetails functionality 17', async () => {
+    it('APP-122: Verify Skill Details functionality on /profile - Test 122', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -189,7 +189,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-123: Verify SkillDetails functionality 18', async () => {
+    it('APP-123: Verify Skill Details functionality on /profile - Test 123', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -200,7 +200,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-124: Verify SkillDetails functionality 19', async () => {
+    it('APP-124: Verify Skill Details functionality on /profile - Test 124', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -211,7 +211,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-125: Verify SkillDetails functionality 20', async () => {
+    it('APP-125: Verify Skill Details handles invalid input on /profile - Test 125', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -222,7 +222,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-126: Verify SkillDetails functionality 21', async () => {
+    it('APP-126: Verify Skill Details functionality on /profile - Test 126', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -233,7 +233,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-127: Verify SkillDetails functionality 22', async () => {
+    it('APP-127: Verify Skill Details functionality on /profile - Test 127', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -244,7 +244,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-128: Verify SkillDetails functionality 23', async () => {
+    it('APP-128: Verify Skill Details functionality on /profile - Test 128', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -255,7 +255,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-129: Verify SkillDetails functionality 24', async () => {
+    it('APP-129: Verify Skill Details functionality on /profile - Test 129', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');
@@ -266,7 +266,7 @@ describe('SkillDetails Module Tests', () => {
         expect(await root.isDisplayed()).toBe(true);
     });
 
-    it('APP-130: Verify SkillDetails functionality 25', async () => {
+    it('APP-130: Verify Skill Details handles invalid input on /profile - Test 130', async () => {
         // Assert the app is running and active
         const currentPackage = await browser.getCurrentPackage();
         expect(currentPackage).toContain('skillora');

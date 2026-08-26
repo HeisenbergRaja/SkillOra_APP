@@ -38,7 +38,8 @@ describe('generate-appium-report', () => {
                         { title: 'Normal Mocha Test Title', state: 'passed', duration: 1000 },
                         { title: '', fullTitle: 'Fallback Name', state: 'passed', duration: 500 },
                         { state: 'skipped' },
-                        { state: 'passed' }
+                        { state: 'passed' },
+                        { title: 'APP-100: Verify Registration functionality on /login - Test 100', state: 'passed', duration: 1200 }
                     ]
                 }
             ]
@@ -67,6 +68,7 @@ describe('generate-appium-report', () => {
             'Fallback Name',
             'Authentication > Unknown Test',
             'Authentication > Unknown Test',
+            'Verify Registration functionality on /login - Test 100',
             'Authentication > Login Screen > should open the login screen',
             'Authentication > Login Screen > should display Google Sign-In button'
         ];
