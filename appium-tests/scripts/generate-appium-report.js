@@ -25,49 +25,97 @@ async function generateReport() {
         try {
             const data = JSON.parse(fs.readFileSync(path.join(jsonReportsDir, file), 'utf8'));
             if (!data || !data.suites) return;
-            data.suites.forEach(suite => {
-                const suiteTitle = String(suite.title || '');
-                const category = suiteTitle.split(' ')[0] || 'General';
+            
+            // Recursive function to process suites and their tests
+            const processSuite = (suite, parentTitles = []) => {
+                const currentSuiteTitle = String(suite.title || '').trim();
+                
+                // Determine the category from the root suite
+                let category = 'General';
+                if (parentTitles.length === 0 && currentSuiteTitle) {
+                    category = currentSuiteTitle.split(' ')[0] || 'General';
+                } else if (parentTitles.length > 0 && parentTitles[0]) {
+                    category = parentTitles[0].split(' ')[0] || 'General';
+                }
+                
                 if (!categories[category]) categories[category] = { total: 0, passed: 0, failed: 0, skipped: 0 };
                 
-                if (!suite.tests) return;
-                suite.tests.forEach(test => {
-                    totalTests++;
-                    totalDuration += test.duration || 0;
-                    categories[category].total++;
-                    
-                    const state = String(test.state || (test.passed ? 'passed' : 'failed'));
-                    
-                    let statusStr = state.toUpperCase();
-                    if (state === 'passed') {
-                        passed++;
-                        categories[category].passed++;
-                        statusStr = 'EXECUTED/PASSED';
-                    } else if (state === 'failed') {
-                        failed++;
-                        categories[category].failed++;
-                        statusStr = 'EXECUTED/FAILED';
-                        failures.push({
+                const currentTitles = currentSuiteTitle ? [...parentTitles, currentSuiteTitle] : [...parentTitles];
+                
+                if (suite.tests && suite.tests.length > 0) {
+                    suite.tests.forEach(test => {
+                        totalTests++;
+                        totalDuration += test.duration || 0;
+                        categories[category].total++;
+                        
+                        const state = String(test.state || (test.passed ? 'passed' : 'failed'));
+                        
+                        let statusStr = state.toUpperCase();
+                        
+                        // Extract test name
+                        let testTitle = test.title || test.name || test.testName || '';
+                        
+                        if (!testTitle && (test.fullTitle || test.fullName)) {
+                            // If title is missing but fullTitle exists, just use fullTitle entirely
+                            // without prepending suite names to avoid duplication
+                            testTitle = test.fullTitle || test.fullName;
+                        }
+
+                        let finalTestName = '';
+                        if (testTitle && (test.fullTitle || test.fullName) === testTitle) {
+                             // Sometimes fullTitle is the same as title and includes suite
+                             finalTestName = testTitle;
+                        } else if (testTitle && testTitle === (test.fullTitle || test.fullName)) {
+                             finalTestName = testTitle;
+                        } else {
+                            let fullNameParts = [...currentTitles];
+                            if (testTitle) fullNameParts.push(testTitle);
+                            finalTestName = fullNameParts.join(' > ').trim();
+                        }
+                        
+                        // Try fallback fields if empty or if it just matches the suite name
+                        if (!finalTestName || finalTestName === currentTitles.join(' > ').trim()) {
+                            finalTestName = test.fullTitle || test.fullName || (currentTitles.length > 0 ? currentTitles.join(' > ') + ' > Unknown Test' : 'Unknown Test');
+                        }
+                        
+                        if (state === 'passed') {
+                            passed++;
+                            categories[category].passed++;
+                            statusStr = 'EXECUTED/PASSED';
+                        } else if (state === 'failed') {
+                            failed++;
+                            categories[category].failed++;
+                            statusStr = 'EXECUTED/FAILED';
+                            failures.push({
+                                id: `APP-${String(totalTests).padStart(3, '0')}`,
+                                name: finalTestName,
+                                error: String(test.error || 'Assertion Failed')
+                            });
+                        } else {
+                            skipped++;
+                            categories[category].skipped++;
+                            statusStr = 'BLOCKED';
+                        }
+                        
+                        allTests.push({
                             id: `APP-${String(totalTests).padStart(3, '0')}`,
-                            name: String(test.title || 'Unknown Test'),
-                            error: String(test.error || 'Assertion Failed')
+                            category,
+                            name: finalTestName,
+                            status: statusStr,
+                            duration: test.duration || 0,
+                            error: state === 'failed' ? String(test.error || 'Failed') : ''
                         });
-                    } else {
-                        skipped++;
-                        categories[category].skipped++;
-                        statusStr = 'BLOCKED';
-                    }
-                    
-                    allTests.push({
-                        id: `APP-${String(totalTests).padStart(3, '0')}`,
-                        category,
-                        name: String(test.title || 'Unknown Test'),
-                        status: statusStr,
-                        duration: test.duration || 0,
-                        error: state === 'failed' ? String(test.error || 'Failed') : ''
                     });
-                });
-            });
+                }
+                
+                // Process nested suites
+                if (suite.suites && suite.suites.length > 0) {
+                    suite.suites.forEach(childSuite => processSuite(childSuite, currentTitles));
+                }
+            };
+
+            data.suites.forEach(suite => processSuite(suite, []));
+            
         } catch (e) {
             console.error(`Error parsing ${file}:`, e);
         }
