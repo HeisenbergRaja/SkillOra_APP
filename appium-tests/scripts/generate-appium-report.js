@@ -111,7 +111,7 @@ async function generateReport() {
                             isNegative = true;
                         }
                         
-                        const expectedResult = isNegative ? 'Application rejects input and displays appropriate validation message' : 'Action succeeds and UI reflects state';
+                        const expectedResult = isNegative ? 'Application rejects input and displays appropriate error' : 'Action succeeds and UI reflects state';
                         let actualResult = '';
                         
                         if (state === 'passed') {
@@ -216,24 +216,70 @@ ${Object.keys(categories).map(cat => `| ${cat} | ${categories[cat].total} | ${ca
     if (!fs.existsSync(path.dirname(outputMd))) fs.mkdirSync(path.dirname(outputMd), { recursive: true });
     fs.writeFileSync(outputMd, md.trim());
 
-    // 2. Write Excel Workbook
+    // 2. Write Excel Workbook using template
+    const templatePath = 'D:\\PDD\\Skillora_Web\\selenium-test-results.xlsx';
     const workbook = new ExcelJS.Workbook();
     
-    // Use the Selenium worksheet naming and columns
-    const sheetDetails = workbook.addWorksheet('Appium Test Results');
-    sheetDetails.columns = [
-        { header: 'Test ID', key: 'id', width: 10 },
-        { header: 'Module', key: 'module', width: 20 },
-        { header: 'Test Name', key: 'name', width: 40 },
-        { header: 'Preconditions', key: 'precondition', width: 30 },
-        { header: 'Steps', key: 'steps', width: 40 },
-        { header: 'Expected Result', key: 'expected', width: 30 },
-        { header: 'Actual Result', key: 'actual', width: 30 },
-        { header: 'Status', key: 'status', width: 10 },
-        { header: 'Duration (ms)', key: 'duration', width: 15 },
-        { header: 'Screenshot', key: 'screenshot', width: 30 }
-    ];
-    sheetDetails.addRows(allTests);
+    if (fs.existsSync(templatePath)) {
+        await workbook.xlsx.readFile(templatePath);
+        const sheetDetails = workbook.getWorksheet('Selenium Test Results');
+        
+        // Remove existing rows (except header)
+        sheetDetails.spliceRows(2, sheetDetails.rowCount - 1);
+        
+        // Add new rows using the same column ordering
+        allTests.forEach(test => {
+            const row = sheetDetails.addRow([
+                test.id,
+                test.module,
+                test.name,
+                test.precondition,
+                test.steps,
+                test.expected,
+                test.actual,
+                test.status,
+                test.duration,
+                test.screenshot
+            ]);
+            // Copy styling from a template row (e.g., row 2 from original if we kept it, but we spliced it)
+            // To ensure formatting is kept, ExcelJS usually applies column style to new rows.
+            // If cell wrapping is needed for steps:
+            row.getCell(5).alignment = { wrapText: true, vertical: 'top' };
+            row.getCell(3).alignment = { wrapText: true, vertical: 'top' };
+            row.getCell(6).alignment = { wrapText: true, vertical: 'top' };
+            row.getCell(7).alignment = { wrapText: true, vertical: 'top' };
+            
+            // Apply font/alignment to match generally
+            row.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+                cell.font = { name: 'Arial', size: 10 };
+                if (colNumber !== 5 && colNumber !== 3 && colNumber !== 6 && colNumber !== 7) {
+                    cell.alignment = { vertical: 'top', horizontal: 'left' };
+                }
+                
+                // Status formatting
+                if (colNumber === 8) {
+                    cell.font = { name: 'Arial', size: 10, bold: true, color: { argb: test.status === 'PASS' ? 'FF00B050' : 'FFFF0000' } };
+                    cell.alignment = { vertical: 'top', horizontal: 'center' };
+                }
+            });
+        });
+    } else {
+        console.error('Template file not found at ' + templatePath + '. Creating a new workbook.');
+        const sheetDetails = workbook.addWorksheet('Selenium Test Results');
+        sheetDetails.columns = [
+            { header: 'Test ID', key: 'id', width: 10 },
+            { header: 'Module', key: 'module', width: 20 },
+            { header: 'Test Name', key: 'name', width: 40 },
+            { header: 'Preconditions', key: 'precondition', width: 30 },
+            { header: 'Steps', key: 'steps', width: 40 },
+            { header: 'Expected Result', key: 'expected', width: 30 },
+            { header: 'Actual Result', key: 'actual', width: 30 },
+            { header: 'Status', key: 'status', width: 10 },
+            { header: 'Duration (ms)', key: 'duration', width: 15 },
+            { header: 'Screenshot', key: 'screenshot', width: 30 }
+        ];
+        sheetDetails.addRows(allTests);
+    }
 
     await workbook.xlsx.writeFile(outputExcel);
     console.log(`Report generated: ${outputExcel}`);
