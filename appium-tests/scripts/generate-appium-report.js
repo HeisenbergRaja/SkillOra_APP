@@ -8,6 +8,7 @@ const outputMd = path.join(__dirname, '..', 'reports', 'appium-test-report.md');
 
 // Use the new reference file if it exists, otherwise fallback to the old one.
 const possibleTemplates = [
+    path.join(__dirname, '..', 'data', 'selenium-test-results.xlsx'),
     'D:\\PDD\\Skillora_Web\\selenium-test-results(1).xlsx',
     'D:\\PDD\\Skillora_Web\\selenium-test-results.xlsx'
 ];
